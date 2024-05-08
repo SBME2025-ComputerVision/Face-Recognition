@@ -12,13 +12,13 @@ PKGCONFIG += opencv4
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    Views/mainwindow.cpp \
 
 HEADERS += \
-    mainwindow.h
+    Views/mainwindow.h
 
 FORMS += \
-    mainwindow.ui
+    Views/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
