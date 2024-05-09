@@ -32,7 +32,18 @@ int main(int argc, char *argv[])
     }
     Mat data = FaceDetection::flattenFaces(faces);
     data = _PCA::normalizeData(data);
-    Mat tmp = data.row(3).reshape(1,100);
+    std::cout<<"Norm data sz "<<data.size();
+    Mat cov;
+    cov = _PCA::calculateCovarianceMatrix(data);
+    Mat pcas;
+    pcas = _PCA::computePCA(data,cov);
+
+
+
+    Mat tmp = pcas.row(1).reshape(1,100);
+
+//    Mat tmp = data.row(1).reshape(1,100);
+
 
     imwrite("alak.png",tmp);
 
