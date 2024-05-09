@@ -12,11 +12,13 @@ PKGCONFIG += opencv4
 
 SOURCES += \
     Models/facedetection.cpp \
+    Models/pca.cpp \
     main.cpp \
     Views/mainwindow.cpp \
 
 HEADERS += \
     Models/facedetection.h \
+    Models/pca.h \
     Views/mainwindow.h
 
 FORMS += \
