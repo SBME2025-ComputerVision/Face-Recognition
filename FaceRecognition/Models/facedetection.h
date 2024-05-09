@@ -11,6 +11,7 @@ class FaceDetection
 public:
     FaceDetection();
     static Mat detectFaces(Mat frame , std::string classifier, CascadeClassifier cascade);
+    static Mat flattenFaces(std::vector<Mat> faces);
 
 };
 

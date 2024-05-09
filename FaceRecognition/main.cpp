@@ -27,9 +27,14 @@ int main(int argc, char *argv[])
 
     //for each file in ./Gallery/Faces/ folder add to faces vector
     for (const auto & entry : fs::directory_iterator("./Gallery/Faces/")) {
-        Mat face = imread(entry.path().string());
+        Mat face = imread(entry.path().string(),CV_8UC1);
         faces.push_back(face);
     }
+    Mat data = FaceDetection::flattenFaces(faces);
+    data = _PCA::normalizeData(data);
+    Mat tmp = data.row(3).reshape(1,100);
+
+    imwrite("alak.png",tmp);
 
 
     return 0;

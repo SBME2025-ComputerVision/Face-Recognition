@@ -1,6 +1,6 @@
 #include "pca.h"
 
-PCA::PCA() {}
+_PCA::_PCA() {}
 
 
 /*
@@ -11,7 +11,7 @@ PCA::PCA() {}
             The data is standardized by subtracting the mean of each feature from each sample and dividing by the standard deviation of each feature.
             This is done to ensure that each feature contributes equally to the PCA.
 */
-cv::Mat PCA::normalizeData(cv::Mat data)
+cv::Mat _PCA::normalizeData(cv::Mat data)
 {
     cv::Mat normalizedData;
     cv::Mat mean, stdDev;
@@ -28,7 +28,7 @@ cv::Mat PCA::normalizeData(cv::Mat data)
     @brief: The covariance matrix is calculated by multiplying the normalized data by its transpose.
 */
 
-cv::Mat PCA::calculateCovarianceMatrix(cv::Mat normalizedData)
+cv::Mat _PCA::calculateCovarianceMatrix(cv::Mat normalizedData)
 {
     cv::Mat covarianceMatrix;
     cv::calcCovarMatrix(normalizedData, covarianceMatrix, cv::Mat(), cv::COVAR_NORMAL | cv::COVAR_ROWS);
@@ -43,7 +43,7 @@ cv::Mat PCA::calculateCovarianceMatrix(cv::Mat normalizedData)
     @brief: The eigenvectors are computed by performing an eigenvalue decomposition on the covariance matrix.
 */
 
-cv::Mat PCA::computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix)
+cv::Mat _PCA::computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix)
 {
     cv::Mat eigenValues, eigenVectors;
     cv::eigen(covarianceMatrix, eigenValues, eigenVectors);
@@ -59,7 +59,7 @@ cv::Mat PCA::computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix)
     @brief: The weights are computed by projecting the data onto the eigenvectors.
 */
 
-cv::Mat PCA::computeWeights(cv::Mat normalizedData, cv::Mat eigenFaces)
+cv::Mat _PCA::computeWeights(cv::Mat normalizedData, cv::Mat eigenFaces)
 {
     cv::Mat weights;
     // Project the data onto the eigenfaces.

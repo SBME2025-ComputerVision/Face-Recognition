@@ -12,10 +12,10 @@
     3. Sort eigenvalues in descending order and choose the k eigenvectors that correspond to the k largest eigenvalues where k is the number of dimensions of the new feature subspace (k<=d).
 */
 
-class PCA
+class _PCA
 {
 public:
-    PCA();
+    _PCA();
     static cv::Mat applyPCA(cv::Mat data, float accuracy = 0.9);
     static cv::Mat normalizeData(cv::Mat data);
     static cv::Mat calculateCovarianceMatrix(cv::Mat normalizedData);
