@@ -11,14 +11,16 @@ PKGCONFIG += opencv4
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Models/facedetection.cpp \
     main.cpp \
-    mainwindow.cpp
+    Views/mainwindow.cpp \
 
 HEADERS += \
-    mainwindow.h
+    Models/facedetection.h \
+    Views/mainwindow.h
 
 FORMS += \
-    mainwindow.ui
+    Views/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
