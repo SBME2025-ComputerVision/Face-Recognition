@@ -35,7 +35,7 @@ Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassi
         Point center(cX,cY);
         rectangle(frame,faces[i],Scalar(255,0,0),2);
     }
-
+    imwrite("./Gallery/faces.jpg",frame);
     return frame;
 }
 

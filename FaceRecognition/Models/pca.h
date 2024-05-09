@@ -17,7 +17,6 @@ class PCA
 public:
     PCA();
     static cv::Mat applyPCA(cv::Mat data, float accuracy = 0.9);
-private:
     static cv::Mat normalizeData(cv::Mat data);
     static cv::Mat calculateCovarianceMatrix(cv::Mat normalizedData);
     static cv::Mat computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix);

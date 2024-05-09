@@ -1,9 +1,12 @@
 #include "Views/mainwindow.h"
 #include "Models/facedetection.h"
+#include "Models/pca.h"
+#include <filesystem>
 
 #include <QApplication>
 #include <iostream>
 
+namespace fs = std::filesystem;
 CascadeClassifier cascade;
 
 int main(int argc, char *argv[])
@@ -16,19 +19,17 @@ int main(int argc, char *argv[])
     std::string faceClassifier5 = "./Assets/haarcascade_frontalface_alt_tree.xml";
     std::string faceClassifier6 = "./Assets/haarcascade_frontalcatface_extended.xml";
 
-
-
-
-
     Mat img;
+    std::vector<Mat> faces;
 
-    img = imread("./Gallery/family.jpg");
-
-    imwrite("./Gallery/read.png",img);
-
+    img = imread("./Gallery/originalBoys.jpg");
     img = FaceDetection::detectFaces(img,faceClassifier,cascade);
 
-    imwrite("./Gallery/faces.png",img);
+    //for each file in ./Gallery/Faces/ folder add to faces vector
+    for (const auto & entry : fs::directory_iterator("./Gallery/Faces/")) {
+        Mat face = imread(entry.path().string());
+        faces.push_back(face);
+    }
 
 
     return 0;
