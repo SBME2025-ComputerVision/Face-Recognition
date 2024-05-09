@@ -57,14 +57,13 @@ cv::Mat _PCA::calculateCovarianceMatrix(cv::Mat normalizedData)
 
 cv::Mat _PCA::computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix)
 {
-    int num_components = 10;
     // Compute the eigenvectors of the covariance matrix
     cv::Mat eigenvalues, eigenvectors;
-   // eigen(covarianceMatrix, eigenvalues, eigenvectors);
+   eigen(covarianceMatrix, eigenvalues, eigenvectors);
 
     cv::Mat eigenfaces_mat;
-    cv::Mat eigenvectors_transpose = eigenvectors.t();
-    cv::Mat normalized_data_transpose = normalizedData.t();
+    cv::Mat eigenvectors_transpose = eigenvectors;
+    cv::Mat normalized_data_transpose = normalizedData;
 
     // Convert the matrix types if necessary
     eigenvectors_transpose.convertTo(eigenvectors_transpose, CV_64FC1);
@@ -78,10 +77,7 @@ cv::Mat _PCA::computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix)
         normalize(eigenfaces_mat.row(i), eigenfaces_mat.row(i), 0, 255,cv:: NORM_MINMAX);
       }
 
-    // Select the top num_components eigenfaces
-    cv::Mat eigenfaces = eigenfaces_mat.rowRange(0, num_components);
-
-    return eigenfaces;
+    return eigenfaces_mat;
 }
 
 /*

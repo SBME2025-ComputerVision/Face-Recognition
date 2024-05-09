@@ -40,12 +40,12 @@ int main(int argc, char *argv[])
 
 
 
-    Mat tmp = pcas.row(1).reshape(1,100);
+    Mat tmp = pcas.row(0).reshape(1,100);
 
 //    Mat tmp = data.row(1).reshape(1,100);
 
 
-    imwrite("alak.png",tmp);
+    imwrite("alak.jpg",tmp);
 
 
     return 0;
