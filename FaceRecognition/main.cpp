@@ -10,22 +10,59 @@
 namespace fs = std::filesystem;
 CascadeClassifier cascade;
 
+std::vector<Mat> getFaces(std::string path){
+    std::vector<Mat> faces;
+    Size targetSize = cv::Size(64,64);
+    // Iterate over files in the folder
+    for (const auto& entry : fs::directory_iterator(path)) {
+        if (entry.is_regular_file()) {
+            std::string imagePath = entry.path().string();
+            Mat image = cv::imread(imagePath, cv::IMREAD_GRAYSCALE);
+
+            if (!image.empty()) {
+                faces.push_back(image);
+            }
+        }
+    }
+    for(int i = 0; i < faces.size(); i++) {
+        resize(faces[i], faces[i], targetSize);
+    }
+    for (int i = 0; i < faces.size(); i++) {
+        faces[i].convertTo(faces[i],CV_32FC1);
+    }
+    return faces;
+}
+
 int main(int argc, char *argv[])
 {
 
 
     std::vector<Mat> faces;
-    faces = Fetcher::readImagesFromFolder("./Gallery/Faces/");
-    Mat data = Fetcher::flattenFaces(faces);
-    std::cout<<data.size()<<std::endl;
+    faces = getFaces("./Gallery/Faces/");
 
-    cv::Mat eigenFaces,weights;
+    _PCA pca = _PCA(faces);
 
-    std::make_pair(eigenFaces,weights)= _PCA::applyPCA(data);
+    Mat eigenVector = pca.getEigenvectors();
 
-    std::cout<<eigenFaces.size()<<std::endl;
-    std::cout<<weights<<std::endl;
+
+
+    qDebug()<<"Size of eigenV: " << eigenVector.rows<<"*"<< eigenVector.cols <<"\n";
+
+    // write eigenVectors to images
+    for (int i = 0; i < eigenVector.rows; i++) {
+        Mat eigenFace = eigenVector.row(i).clone();
+        eigenFace = eigenFace.reshape(1, 64);
+        std::cout<<eigenFace<<"\n";
+        // eigenFace.convertTo(eigenFace, CV_8UC1);
+        // imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
+    } 
+
     return 0;
+
+
+
+
+
 
 
     // std::string faceClassifier = "./Assets/haarcascade_frontalface_alt.xml";

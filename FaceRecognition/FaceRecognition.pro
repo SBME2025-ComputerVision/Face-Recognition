@@ -14,6 +14,7 @@ SOURCES += \
     Models/facedetection.cpp \
     Models/fetcher.cpp \
     Models/pca.cpp \
+    Models/readfile.cpp \
     main.cpp \
     Views/mainwindow.cpp \
 
@@ -21,6 +22,7 @@ HEADERS += \
     Models/facedetection.h \
     Models/fetcher.h \
     Models/pca.h \
+    Models/readfile.h \
     Views/mainwindow.h
 
 FORMS += \

@@ -23,17 +23,9 @@ using namespace cv;
 class _PCA
 {
 public:
-<<<<<<< Updated upstream
-    _PCA();
-    static std::pair<cv::Mat,cv::Mat> applyPCA(cv::Mat data);
-    static cv::Mat normalize(cv::Mat data);
-    static cv::Mat calcCov(cv::Mat normalizedData);
-    static cv::Mat calcEigenFaces(cv::Mat cov,cv::Mat normalizedData, float threshold);
-    static cv::Mat calcWeights(cv::Mat normalizedData ,cv::Mat eigenFaces);
-=======
-    _PCA(vector<string>& _facesPath);
-    void getImgSize(vector<string>& _facesPath);
-    void mergeMatrix(vector<string>& _facesPath);
+    _PCA(vector<Mat> faces);
+    void getImgSize(vector<Mat> faces);
+    void mergeMatrix(vector<Mat> faces);
     void getAverageVector();
     void subtractMatrix();
     void getBestEigenVectors(Mat _covarMatrix);
@@ -49,7 +41,6 @@ private:
     Mat avgVector;
     Mat subFacesMatrix;
     Mat eigenVector;
->>>>>>> Stashed changes
 };
 
 #endif // PCA_H
