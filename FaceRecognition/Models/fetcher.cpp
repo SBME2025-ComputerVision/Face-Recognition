@@ -40,7 +40,7 @@ std::vector<cv::Mat> Fetcher::readImagesFromFolder(const std::string& folderPath
 
 cv::Mat Fetcher::flattenFaces(std::vector<cv::Mat> faces)
 {
-    cv::Size targetSize = cv::Size(100,100);
+    cv::Size targetSize = cv::Size(64,64);
 
     // Resizing faces
     for(int i = 0; i < faces.size(); i++) {

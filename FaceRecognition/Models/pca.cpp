@@ -59,7 +59,7 @@ cv::Mat _PCA::computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix)
 {
     // Compute the eigenvectors of the covariance matrix
     cv::Mat eigenvalues, eigenvectors;
-   eigen(covarianceMatrix, eigenvalues, eigenvectors);
+    eigen(covarianceMatrix, eigenvalues, eigenvectors);
 
     cv::Mat eigenfaces_mat;
     cv::Mat eigenvectors_transpose = eigenvectors;

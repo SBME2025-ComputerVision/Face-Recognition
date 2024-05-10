@@ -16,10 +16,29 @@ int main(int argc, char *argv[])
 
     Mat data = Fetcher::fetch("./dataset/training/");
     std::cout<<data.size();
-    Mat tmp = data.row(1).reshape(1,100);
 
 
-    imwrite("alak.jpg",tmp);
+    data = _PCA::normalizeData(data);
+    std::cout<<"Norm data sz "<<data.size();
+    Mat cov;
+    cov = _PCA::calculateCovarianceMatrix(data);
+    Mat pcas;
+    std::cout<<pcas.size();
+    pcas = _PCA::computePCA(data,cov);
+
+    for (int i = 0; i < pcas.rows; ++i) {
+        cv::Mat tmp = data.row(i).reshape(1, 64); // Reshape each row of data
+        std::string pth = "./PCA/";
+        std::string filename = pth + "face_" + std::to_string(i) + ".jpg"; // Construct filename
+
+        // Save the flattened face as an image
+        cv::imwrite(filename, tmp);
+    }
+
+
+
+
+
     return 0;
 
 
@@ -43,12 +62,7 @@ int main(int argc, char *argv[])
 //         faces.push_back(face);
 //     }
 //     Mat data = FaceDetection::flattenFaces(faces);
-//     data = _PCA::normalizeData(data);
-//     std::cout<<"Norm data sz "<<data.size();
-//     Mat cov;
-//     cov = _PCA::calculateCovarianceMatrix(data);
-//     Mat pcas;
-//     pcas = _PCA::computePCA(data,cov);
+
 
 
 
