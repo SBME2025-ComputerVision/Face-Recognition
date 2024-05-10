@@ -27,9 +27,8 @@ int main(int argc, char *argv[])
     pcas = _PCA::computePCA(data,cov);
 
     for (int i = 0; i < pcas.rows; ++i) {
-        cv::Mat tmp = data.row(i).reshape(1, 64); // Reshape each row of data
-        std::string pth = "./PCA/";
-        std::string filename = pth + "face_" + std::to_string(i) + ".jpg"; // Construct filename
+        cv::Mat tmp = pcas.row(i).reshape(1, 64); // Reshape each row of data
+        std::string filename ="face_" + std::to_string(i) + ".jpg"; // Construct filename
 
         // Save the flattened face as an image
         cv::imwrite(filename, tmp);
