@@ -42,29 +42,20 @@ cv::Mat Fetcher::flattenFaces(std::vector<cv::Mat> faces)
 {
     cv::Size targetSize = cv::Size(64,64);
 
-    // Resizing faces
+    int imgSize = 64*64;
+
     for(int i = 0; i < faces.size(); i++) {
         resize(faces[i], faces[i], targetSize);
     }
 
-    // Debugging output
-    // std::cout << "Number of faces: " << faces.size() << std::endl;
-
     // Creating the matrix to hold all flattened faces
-    cv::Mat all_data = cv::Mat::zeros(static_cast<int>(faces.size()), targetSize.width * targetSize.height, CV_8UC1);
-
-    // Debugging output
-    // std::cout << "all_data size: " << all_data.size() << std::endl;
+    cv::Mat allData = cv::Mat::zeros(targetSize.width * targetSize.height,static_cast<int>(faces.size()), CV_32FC1);
 
     // Copying each flattened image data to a row in all_data
     for(int i = 0; i < faces.size(); i++) {
-        cv::Mat currentFace = faces[i];
-        // Reshape currentFace to be a row vector
-        cv::Mat row = currentFace.reshape(1, 1);
-        // Debugging output
-        // std::cout << "Row size: " << row.size() << std::endl;
-        // Copy the data of the row vector to the corresponding row in all_data
-        row.copyTo(all_data.row(i));
+        cv::Mat tmp;
+        faces[i].convertTo(tmp,CV_32FC1);
+        tmp.reshape(1,imgSize).copyTo(allData.col(i));
     }
-    return all_data;
+    return allData;
 }

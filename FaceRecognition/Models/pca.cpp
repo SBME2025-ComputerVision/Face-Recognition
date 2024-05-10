@@ -1,100 +1,68 @@
 #include "pca.h"
 #include <QDebug>
-_PCA::_PCA() {}
 
-
-/*
-    @param data: The data to be standardized.
-    @return: The standardized data.
-
-    @brief: data is Mat where each row is a sample and each column is a feature.
-            The data is standardized by subtracting the mean of each feature from each sample and dividing by the standard deviation of each feature.
-            This is done to ensure that each feature contributes equally to the PCA.
-*/
-cv::Mat _PCA::normalizeData(cv::Mat data)
+std::pair<cv::Mat, cv::Mat> _PCA::applyPCA(cv::Mat data)
 {
-    cv::Mat normalizedData;
-    cv::Mat mean, stdDev;
-    cv::meanStdDev(data, mean, stdDev);
-    cv::subtract(data, mean, normalizedData);
-  //  cv::divide(normalizedData, stdDev, normalizedData);
+    cv::Mat normalizedData = normalize(data);
+    cv::Mat cov = calcCov(normalizedData);
+    cv::Mat eigenFaces = calcEigenFaces(cov,normalizedData,0.95);
+    cv::Mat weights = calcWeights(normalizedData,eigenFaces);
+    return std::make_pair(eigenFaces,weights);
+}
+
+cv::Mat _PCA::normalize(cv::Mat data)
+{
+    cv::Mat avg;
+    cv::Mat normalizedData = data;
+    cv::reduce(data,avg,1,cv::REDUCE_AVG);
+
+    for(int i = 0; i < data.cols; i++)
+    {
+        cv::subtract(data.col(i),avg,normalizedData.col(i));
+    }
+
     return normalizedData;
 }
 
-/*
-    @param normalizedData: The data to calculate the covariance matrix of.
-    @return: The covariance matrix of the data.
-
-    @brief: The covariance matrix is calculated by multiplying the normalized data by its transpose.
-*/
-
-cv::Mat _PCA::calculateCovarianceMatrix(cv::Mat normalizedData)
+cv::Mat _PCA::calcCov(cv::Mat normalizedData)
 {
-    // initialize the covariance matrix
-     // get the transpose of the normalized images matrix
-     cv::Mat normalizedImagesT;
+    cv::Mat cov;
+    cov = (normalizedData * normalizedData.t());
+    return cov;
 
-     transpose(normalizedData, normalizedImagesT);
-       qDebug() << normalizedData.rows << normalizedData.cols;
-       qDebug() << normalizedImagesT.rows << normalizedImagesT.cols;
-     cv::Mat covarianceMatrix, mu;
-
-     // calculate the covariance matrix
-     calcCovarMatrix(normalizedData, covarianceMatrix, mu, cv::COVAR_NORMAL | cv::COVAR_ROWS);
-     covarianceMatrix /= static_cast<double>(normalizedData.cols - 1);
-
-       qDebug() << "Covariance Matrix Shape: " << covarianceMatrix.rows <<  covarianceMatrix.cols;
-     return covarianceMatrix;
 }
 
-/*
-    @param normalizedData: The data to compute the PCA of.
-    @param covarianceMatrix: The covariance matrix of the data.
-    @return: The eigenvectors of the data.
-
-    @brief: The eigenvectors are computed by performing an eigenvalue decomposition on the covariance matrix.
-*/
-
-cv::Mat _PCA::computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix)
+cv::Mat _PCA::calcEigenFaces(cv::Mat cov,cv::Mat normalizedData, float threshold)
 {
-    // Compute the eigenvectors of the covariance matrix
-    cv::Mat eigenvalues, eigenvectors;
-    eigen(covarianceMatrix, eigenvalues, eigenvectors);
+    cv::Mat eigenValues;
+    cv::Mat eigenVectors;
+    cv::eigen(cov,eigenValues,eigenVectors);
 
-    cv::Mat eigenfaces_mat;
-    cv::Mat eigenvectors_transpose = eigenvectors;
-    cv::Mat normalized_data_transpose = normalizedData;
+    double sum = cv::sum(eigenValues)[0];
+    double sumThreshold = sum * threshold;
+    double currentSum = 0;
+    int i;
 
-    // Convert the matrix types if necessary
-    eigenvectors_transpose.convertTo(eigenvectors_transpose, CV_64FC1);
-    normalized_data_transpose.convertTo(normalized_data_transpose, CV_64FC1);
-    eigenfaces_mat =  normalized_data_transpose * eigenvectors_transpose;
+    for (i = 0; i < eigenValues.rows ; i++)
+    {
+        currentSum += eigenValues.at<double>(i,0);
+        if(currentSum >= sumThreshold)
+        {
+            std::cout<<"Threshold reached at: "<<i<<std::endl;
+            eigenValues = eigenValues.rowRange(0,i);
+            eigenVectors = eigenVectors.rowRange(0,i);
+            break;
+        }
 
+    }
+    cv::Mat eigenFaces = eigenVectors *  normalizedData.t();
 
-    // Normalize the eigenfaces
-    for (int i = 0; i < eigenfaces_mat.rows; i++)
-      {
-        normalize(eigenfaces_mat.row(i), eigenfaces_mat.row(i), 0, 255,cv:: NORM_MINMAX);
-      }
-
-    return eigenfaces_mat;
+    return eigenFaces;
 }
 
-/*
-    @param normalizedData: The data to compute the weights of.
-    @param eigenFaces: The eigenvectors of the data.
-    @return: The weights of the data.
-
-    @brief: The weights are computed by projecting the data onto the eigenvectors.
-*/
-
-cv::Mat _PCA::computeWeights(cv::Mat normalizedData, cv::Mat eigenFaces , int k)
+cv::Mat _PCA::calcWeights(cv::Mat normalizedData, cv::Mat eigenFaces)
 {
-    cv::Mat weights;
-    eigenFaces = eigenFaces.t();
-    normalizedData.convertTo(normalizedData, CV_32F);
-    eigenFaces.convertTo(eigenFaces, CV_32F);
-    std::cout<<"eigen faces transpose size"<<eigenFaces.size()<<std::endl<<"normalized data"<<normalizedData.size()<<std::endl;
-    weights =  normalizedData * eigenFaces;
+    cv::Mat weights =normalizedData.t() * eigenFaces.t();
     return weights;
+
 }

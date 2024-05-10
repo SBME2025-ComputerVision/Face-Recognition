@@ -14,32 +14,18 @@ int main(int argc, char *argv[])
 {
 
 
-    Mat data = Fetcher::fetch("./dataset/training/");
-    std::cout<<data.size();
+    std::vector<Mat> faces;
+    faces = Fetcher::readImagesFromFolder("./Gallery/Faces/");
+    Mat data = Fetcher::flattenFaces(faces);
+    std::cout<<data.size()<<std::endl;
 
+    cv::Mat eigenFaces,weights;
 
-    data = _PCA::normalizeData(data);
-    std::cout<<"Norm data sz "<<data.size();
-    Mat cov;
-    cov = _PCA::calculateCovarianceMatrix(data);
-    Mat pcas;
-    std::cout<<pcas.size();
-    pcas = _PCA::computePCA(data,cov);
+    std::make_pair(eigenFaces,weights)= _PCA::applyPCA(data);
 
-    for (int i = 0; i < pcas.rows; ++i) {
-        cv::Mat tmp = pcas.row(i).reshape(1, 64); // Reshape each row of data
-        std::string filename ="face_" + std::to_string(i) + ".jpg"; // Construct filename
-
-        // Save the flattened face as an image
-        cv::imwrite(filename, tmp);
-    }
-
-
-
-
-
+    std::cout<<eigenFaces.size()<<std::endl;
+    std::cout<<weights<<std::endl;
     return 0;
-
 
 
     // std::string faceClassifier = "./Assets/haarcascade_frontalface_alt.xml";

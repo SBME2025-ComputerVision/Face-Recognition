@@ -16,11 +16,11 @@ class _PCA
 {
 public:
     _PCA();
-    static cv::Mat applyPCA(cv::Mat data, float accuracy = 0.9);
-    static cv::Mat normalizeData(cv::Mat data);
-    static cv::Mat calculateCovarianceMatrix(cv::Mat normalizedData);
-    static cv::Mat computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix);
-    static cv::Mat computeWeights(cv::Mat normalizedData, cv::Mat eigenFaces, int k);
+    static std::pair<cv::Mat,cv::Mat> applyPCA(cv::Mat data);
+    static cv::Mat normalize(cv::Mat data);
+    static cv::Mat calcCov(cv::Mat normalizedData);
+    static cv::Mat calcEigenFaces(cv::Mat cov,cv::Mat normalizedData, float threshold);
+    static cv::Mat calcWeights(cv::Mat normalizedData ,cv::Mat eigenFaces);
 };
 
 #endif // PCA_H
