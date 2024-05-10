@@ -1,7 +1,15 @@
 #ifndef PCA_H
 #define PCA_H
 
-#include <opencv2/opencv.hpp>
+#include <iostream>
+#include <vector>
+#include <float.h>
+#include "opencv2/core.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/highgui.hpp"
+
+using namespace std;
+using namespace cv;
 
 
 
@@ -15,12 +23,33 @@
 class _PCA
 {
 public:
+<<<<<<< Updated upstream
     _PCA();
     static std::pair<cv::Mat,cv::Mat> applyPCA(cv::Mat data);
     static cv::Mat normalize(cv::Mat data);
     static cv::Mat calcCov(cv::Mat normalizedData);
     static cv::Mat calcEigenFaces(cv::Mat cov,cv::Mat normalizedData, float threshold);
     static cv::Mat calcWeights(cv::Mat normalizedData ,cv::Mat eigenFaces);
+=======
+    _PCA(vector<string>& _facesPath);
+    void getImgSize(vector<string>& _facesPath);
+    void mergeMatrix(vector<string>& _facesPath);
+    void getAverageVector();
+    void subtractMatrix();
+    void getBestEigenVectors(Mat _covarMatrix);
+    Mat getFacesMatrix();
+    Mat getAverage();
+    Mat getEigenvectors();
+    ~_PCA();
+
+private:
+    int imgSize = -1;//Dimension of features
+    int imgRows = -1;//row# of image
+    Mat allFacesMatrix;
+    Mat avgVector;
+    Mat subFacesMatrix;
+    Mat eigenVector;
+>>>>>>> Stashed changes
 };
 
 #endif // PCA_H
