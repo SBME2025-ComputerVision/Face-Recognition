@@ -42,7 +42,7 @@ Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassi
 
 Mat FaceDetection::flattenFaces(std::vector<Mat> faces)
 {
-    Size targetSize = Size(100,100);
+    Size targetSize = Size(64,64);
 
     // Resizing faces
     for(int i = 0; i < faces.size(); i++) {

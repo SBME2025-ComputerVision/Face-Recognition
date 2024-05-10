@@ -88,12 +88,13 @@ cv::Mat _PCA::computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix)
     @brief: The weights are computed by projecting the data onto the eigenvectors.
 */
 
-cv::Mat _PCA::computeWeights(cv::Mat normalizedData, cv::Mat eigenFaces)
+cv::Mat _PCA::computeWeights(cv::Mat normalizedData, cv::Mat eigenFaces , int k)
 {
     cv::Mat weights;
-    // Project the data onto the eigenfaces.
-    cv::Mat eigenfacesTranspose = eigenFaces.t();
-    cv::Mat normalizedTranspose = normalizedData.t();
-    weights = normalizedTranspose * eigenfacesTranspose;
+    eigenFaces = eigenFaces.t();
+    normalizedData.convertTo(normalizedData, CV_32F);
+    eigenFaces.convertTo(eigenFaces, CV_32F);
+    std::cout<<"eigen faces transpose size"<<eigenFaces.size()<<std::endl<<"normalized data"<<normalizedData.size()<<std::endl;
+    weights =  normalizedData * eigenFaces;
     return weights;
 }

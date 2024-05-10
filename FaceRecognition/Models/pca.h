@@ -20,7 +20,7 @@ public:
     static cv::Mat normalizeData(cv::Mat data);
     static cv::Mat calculateCovarianceMatrix(cv::Mat normalizedData);
     static cv::Mat computePCA(cv::Mat normalizedData, cv::Mat covarianceMatrix);
-    static cv::Mat computeWeights(cv::Mat normalizedData, cv::Mat eigenFaces);
+    static cv::Mat computeWeights(cv::Mat normalizedData, cv::Mat eigenFaces, int k);
 };
 
 #endif // PCA_H
