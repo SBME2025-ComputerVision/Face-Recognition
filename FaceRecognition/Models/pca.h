@@ -24,23 +24,26 @@ class _PCA
 {
 public:
     _PCA(vector<Mat> faces);
+    Mat getFacesMatrix();
+    Mat getAverage();
+    Mat getEigenvectors();
+    Mat getWeights();
+    ~_PCA();
+
+private:
     void getImgSize(vector<Mat> faces);
     void mergeMatrix(vector<Mat> faces);
     void getAverageVector();
     void subtractMatrix();
-    void getBestEigenVectors(Mat _covarMatrix);
-    Mat getFacesMatrix();
-    Mat getAverage();
-    Mat getEigenvectors();
-    ~_PCA();
-
-private:
+    void getBestEigenVectors(Mat _covarMatrix,float threshold = 0.90);
+    void calcWeights();
     int imgSize = -1;//Dimension of features
     int imgRows = -1;//row# of image
     Mat allFacesMatrix;
     Mat avgVector;
     Mat subFacesMatrix;
     Mat eigenVector;
+    Mat weights;
 };
 
 #endif // PCA_H

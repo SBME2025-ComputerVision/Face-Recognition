@@ -10,10 +10,8 @@ _PCA::_PCA(vector<Mat> faces){
     getAverageVector();
     subtractMatrix();
     Mat _covarMatrix = (subFacesMatrix.t()) * subFacesMatrix;
-    getBestEigenVectors(_covarMatrix);
-
-
-
+    getBestEigenVectors(_covarMatrix,1.0);
+    calcWeights();
 }
 
 void _PCA:: getImgSize(vector<Mat> faces)
@@ -55,11 +53,27 @@ void _PCA::subtractMatrix()
     }
 }
 
-void _PCA::getBestEigenVectors(Mat _covarMatrix)
+void _PCA::getBestEigenVectors(Mat _covarMatrix,float threshold)
 {
     //Get all eigenvalues and eigenvectors from covariance matrix
     Mat allEigenValues, allEigenVectors;
     eigen(_covarMatrix, allEigenValues, allEigenVectors);
+
+    // reduce till the threshold
+    float sum = 0;
+    float totalSum = 0;
+    for (int i = 0; i < allEigenValues.rows; i++) {
+        totalSum += allEigenValues.at<float>(i, 0);
+    }
+    for (int i = 0; i < allEigenValues.rows; i++) {
+        sum += allEigenValues.at<float>(i, 0);
+        if (sum / totalSum >= threshold) {
+            qDebug() << "Reached threshold at: " << i<<"\n";
+            eigenVector = allEigenVectors.rowRange(0, i + 1);
+            break;
+        }
+    }
+
 
     eigenVector = allEigenVectors * (subFacesMatrix.t());
     //Normalize eigenvectors
@@ -83,6 +97,28 @@ Mat _PCA::getAverage()
 Mat _PCA::getEigenvectors()
 {
     return eigenVector;
+}
+
+Mat _PCA::getWeights()
+{
+    return weights;
+}
+
+void _PCA::calcWeights()
+{
+
+    Mat facesMatrix = getFacesMatrix();
+    Mat avg = getAverage();
+    Mat eigenVec = getEigenvectors();
+
+    weights.create(facesMatrix.cols, facesMatrix.cols, CV_32FC1);
+
+    for (int i = 0; i < facesMatrix.cols; i++) {
+        Mat temp;
+        Mat projectFace = weights.col(i);
+        subtract(facesMatrix.col(i), avg, temp);
+        projectFace = eigenVec * temp;
+    }
 }
 
 _PCA::~_PCA() {}

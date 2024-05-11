@@ -11,21 +11,30 @@ PKGCONFIG += opencv4
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Controller/livecameracontroller.cpp \
+    Helpers/gui_helper.cpp \
     Models/facedetection.cpp \
     Models/fetcher.cpp \
     Models/pca.cpp \
     Models/readfile.cpp \
+    Views/livecamerawidget.cpp \
     main.cpp \
     Views/mainwindow.cpp \
+    config.cpp \
 
 HEADERS += \
+    Controller/livecameracontroller.h \
+    Helpers/gui_helper.h \
     Models/facedetection.h \
     Models/fetcher.h \
     Models/pca.h \
     Models/readfile.h \
-    Views/mainwindow.h
+    Views/livecamerawidget.h \
+    Views/mainwindow.h \
+    config.h \
 
 FORMS += \
+    Views/livecamerawidget.ui \
     Views/mainwindow.ui
 
 
