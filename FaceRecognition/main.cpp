@@ -33,31 +33,34 @@ std::vector<Mat> getFaces(std::string path){
     return faces;
 }
 
+
+
+
 int main(int argc, char *argv[])
 {
 
 
-    std::vector<Mat> faces;
-    faces = getFaces("./Gallery/Faces/");
+//    std::vector<Mat> faces;
+//    faces = getFaces("./Gallery/Faces/");
 
-    _PCA pca = _PCA(faces);
+//    _PCA pca = _PCA(faces);
 
-    Mat eigenVector = pca.getEigenvectors();
+//    Mat eigenVector = pca.getEigenvectors();
 
 
 
-    qDebug()<<"Size of eigenV: " << eigenVector.rows<<"*"<< eigenVector.cols <<"\n";
+//    qDebug()<<"Size of eigenV: " << eigenVector.rows<<"*"<< eigenVector.cols <<"\n";
 
-    // write eigenVectors to images
-    for (int i = 0; i < eigenVector.rows; i++) {
-        Mat eigenFace = eigenVector.row(i).clone();
-        eigenFace = eigenFace.reshape(1, 64);
-        std::cout<<eigenFace<<"\n";
-        // eigenFace.convertTo(eigenFace, CV_8UC1);
-        // imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
-    } 
+//    // write eigenVectors to images
+//    for (int i = 0; i < eigenVector.rows; i++) {
+//        Mat eigenFace = eigenVector.row(i).clone();
+//        eigenFace = eigenFace.reshape(1, 64);
+//        std::cout<<eigenFace<<"\n";
+//        // eigenFace.convertTo(eigenFace, CV_8UC1);
+//        // imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
+//    }
 
-    return 0;
+//    return 0;
 
 
 
@@ -102,8 +105,8 @@ int main(int argc, char *argv[])
 
 
 
-    // QApplication a(argc, argv);
-    // MainWindow w;
-    // w.show();
-    // return a.exec();
+     QApplication a(argc, argv);
+     MainWindow w;
+     w.show();
+     return a.exec();
 }
