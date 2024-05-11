@@ -5,71 +5,112 @@ FilesHelper::FilesHelper()
 {
 
 }
-void FilesHelper:: writeToFile(const Mat& inputMat, const std::string& filename) {
-    std::ofstream outputFile(filename);
-    if (!outputFile.is_open()) {
-        std::cerr << "Failed to open output file!" << std::endl;
-        return;
+//void FilesHelper:: writeToFile(const Mat& inputMat, const std::string& filename) {
+//    std::ofstream outputFile(filename);
+//    if (!outputFile.is_open()) {
+//        std::cerr << "Failed to open output file!" << std::endl;
+//        return;
+//    }
+
+//    // Write eigenVector matrix to file
+//    for (int i = 0; i < inputMat.rows; ++i) {
+//        for (int j = 0; j < inputMat.cols; ++j) {
+//            outputFile << inputMat.at<double>(i, j) << " ";
+//        }
+//        outputFile << std::endl;
+//    }
+
+//    outputFile.close();
+//    std::cout << "EigenVector matrix written to " << filename << std::endl;
+//}
+
+
+void FilesHelper::writeToFile(Mat eigen,const std::string& filename)
+{
+//    string eigenPath = "./data/eigen.txt";
+    ofstream writeEigenFile(filename.c_str(), ofstream::out | ofstream::trunc);
+    if (!writeEigenFile) {
+        cout << "Fail to open file: " << filename << endl;
     }
 
-    // Write eigenVector matrix to file
-    for (int i = 0; i < inputMat.rows; ++i) {
-        for (int j = 0; j < inputMat.cols; ++j) {
-            outputFile << inputMat.at<double>(i, j) << " ";
+    for (int i = 0; i < eigen.rows; i++) {
+        for (int j = 0; j < eigen.cols; j++) {
+            writeEigenFile << eigen.row(i).at<float>(j);
+            writeEigenFile << " ";
         }
-        outputFile << std::endl;
+        writeEigenFile << "\n";
     }
 
-    outputFile.close();
-    std::cout << "EigenVector matrix written to " << filename << std::endl;
+    writeEigenFile.close();
 }
 
+void FilesHelper::writeMeanToFile(Mat Mean, const string &filename)
+{
+    ofstream writeMeanFile(filename.c_str(), ofstream::out | ofstream::trunc);
+    if (!writeMeanFile) {
+        cout << "Fail to open file: " << filename << endl;
+    }
+
+    for (int i = 0; i < Mean.rows; i++) {
+        writeMeanFile << Mean.at<float>(i);
+        writeMeanFile << " ";
+    }
+
+    writeMeanFile.close();
+}
 
 Mat FilesHelper:: readMatrixFromFile(const std::string& filename) {
-    // Open the file for reading
-      std::ifstream inputFile(filename);
-      if (!inputFile.is_open()) {
-          std::cerr << "Failed to open input file!" << std::endl;
-          return Mat();
-      }
+    int num;
+     Mat eigen;
+    if(filename =="./data/eigen.txt" ) {eigen = Mat::zeros(4, 4096, CV_32FC1);num=4; }
+    else { eigen = Mat::zeros(1, 4096, CV_32FC1); num=1; }
+//    string eigenPath = "./data/eigen.txt";
+    ifstream readEigen(filename, ifstream::in);
 
-      // Read the contents of the file into a vector of vectors
-      std::vector<std::vector<double>> data;
-      std::string line;
-      while (std::getline(inputFile, line)) {
-          std::istringstream iss(line);
-          std::vector<double> row;
-          double value;
-          while (iss >> value) {
-              row.push_back(value);
-          }
-          data.push_back(row);
-      }
+    if (!readEigen) {
+        cout << "Fail to open file: " << filename << endl;
+    }
 
-      // Close the file
-      inputFile.close();
+    string line;
+    for (int i = 0; i < num; i++) {
+        getline(readEigen, line);
+        stringstream lines(line);
+        for (int j = 0; j < eigen.cols; j++) {
+            string data;
+            getline(lines, data, ' ');
+            eigen.at<float>(i,j) = atof(data.c_str());
+        }
+    }
 
-      // Check if the data is valid
-      if (data.empty()) {
-          std::cerr << "No data found in file!" << std::endl;
-          return Mat();
-      }
+    readEigen.close();
+    //cout << eigen.row(14).at<float>(9998) << endl;
+    return eigen;
 
-      // Determine the number of columns
-      size_t cols = data[0].size();
+}
 
-      // Create a matrix to store the data
-      Mat matrix(data.size(), cols, CV_64F);
+Mat FilesHelper::readMeanFromFile(const string &filename)
+{
+    Mat mean = Mat::zeros(4096, 1, CV_32FC1);
+    ifstream readMean(filename.c_str(), ifstream::in);
 
-      // Copy the data from the vector of vectors to the matrix
-      for (size_t i = 0; i < data.size(); ++i) {
-          for (size_t j = 0; j < cols; ++j) {
-              matrix.at<double>(i, j) = data[i][j];
-          }
-      }
+       if (!readMean) {
+           cout << "Fail to open file: " << filename << endl;
+       }
 
-      return matrix;
-  }
+       string line;
+       for (int i = 0; i < 1; i++) {
+           getline(readMean, line);
+           stringstream lines(line);
+           for (int j = 0; j < mean.rows; j++) {
+               string data;
+               getline(lines, data, ' ');
+               mean.col(i).at<float>(j) = atof(data.c_str());
+           }
+       }
+
+       readMean.close();
+       return mean;
+}
 
 
 void FilesHelper::writeWeights(vector<string>& _trainFacesID,Mat weights)

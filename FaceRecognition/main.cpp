@@ -38,19 +38,32 @@ std::vector<Mat> getFaces(std::string path){
 
 
 
+
 int main(int argc, char *argv[])
 {
 
 
      std::vector<Mat> faces;
      faces = getFaces("./Gallery/Faces/");
-
      _PCA pca = _PCA(faces);
 
      Mat eigenVector = pca.getEigenvectors();
-     FilesHelper::writeToFile(eigenVector,"./data/eigens.txt");
-     Mat eigens= FilesHelper::readMatrixFromFile("./data/eigens.txt");
-     cout<<eigens;
+    // FilesHelper::writeToFile(eigenVector,"./data/eigen.txt");
+
+     Mat eigens= FilesHelper::readMatrixFromFile("./data/eigen.txt");
+
+//     cout<<eigens;
+
+     Mat mean = pca.getAverage();
+
+     cout<<"Mean Sz"<<mean.size()<<endl;
+  //   FilesHelper::writeMeanToFile(mean,"./data/mean.txt");
+
+
+     Mat meanRead= FilesHelper::readMeanFromFile("./data/mean.txt");
+
+//     cout<<"Mean"<<mean<<endl;
+//     cout<<"Mean Read"<<meanRead<<endl;
 
 
 
@@ -96,8 +109,9 @@ int main(int argc, char *argv[])
              Mat eigenFace = recon.row(i).clone();
 
              // eigenFace *= 10000;        // add mean face
-             Mat avg = pca.getAverage().t();
-             eigenFace = eigenFace + avg;
+//             Mat avg = pca.getAverage().t();
+//             eigenFace = eigenFace + avg;
+             eigenFace = eigenFace + meanRead.t();
              eigenFace = eigenFace.reshape(1, 64);
 
              // std::cout<<eigenFace<<"\n";

@@ -10,7 +10,7 @@ _PCA::_PCA(vector<Mat> faces){
     getAverageVector();
     subtractMatrix();
     Mat _covarMatrix = (subFacesMatrix.t()) * subFacesMatrix;
-    getBestEigenVectors(_covarMatrix,1.0);
+    getBestEigenVectors(_covarMatrix,0.9);
     calcWeights();
 }
 
