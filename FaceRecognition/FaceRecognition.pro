@@ -13,6 +13,7 @@ PKGCONFIG += opencv4
 SOURCES += \
     Controller/livecameracontroller.cpp \
     Helpers/gui_helper.cpp \
+    Helpers/fileshelper.cpp \
     Models/facedetection.cpp \
     Models/fetcher.cpp \
     Models/pca.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     Controller/livecameracontroller.h \
+    Helpers/fileshelper.h \
     Helpers/gui_helper.h \
     Models/facedetection.h \
     Models/fetcher.h \

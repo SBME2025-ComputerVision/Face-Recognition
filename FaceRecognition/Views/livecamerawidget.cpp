@@ -14,9 +14,6 @@ LiveCameraWidget::~LiveCameraWidget()
     delete ui;
 }
 
-
-
-
 void LiveCameraWidget::on_cameraBtn_clicked()
 {
     if(video.isOpened()){
