@@ -1,7 +1,7 @@
 ////#include "Views/mainwindow.h"
-////#include "Models/facedetection.h"
+//#include "Models/facedetection.h"
 ////#include "Models/fetcher.h"
-////#include "Models/pca.h"
+//#include "Models/pca.h"
 ////#include <filesystem>
 
 ////#include <QApplication>
@@ -39,6 +39,9 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include "Models/readfile.h"
+#include"Models/readfile.h"
+using namespace std;
 
 namespace fs = std::filesystem;
 
@@ -57,18 +60,21 @@ void listImagePaths(const std::string& folderPath, std::ofstream& outputFile) {
 }
 
 int main() {
-    std::string folderPath = "C:/Users/user/Documents/GitHub/Face-Recognition/FaceRecognition/dataset/training"; // Update this with the path to your folder
-    std::string outputPath = "C:/Users/user/Documents/GitHub/Face-Recognition/FaceRecognition/output.txt"; // Update this with the desired output file path
-    std::ofstream outputFile(outputPath);
-    if (!outputFile.is_open()) {
-        std::cerr << "Failed to open output file!" << std::endl;
-        return 1;
-    }
+    string trainListFilePath = "C:/Users/user/Documents/GitHub/Face-Recognition/FaceRecognition/train_list.txt";
+     vector<string> trainFacesPath;
+     vector<string> trainFacesID;
+     vector<string> loadedFacesID;
+     //read training list and ID from txt file
+     readList(trainListFilePath, trainFacesPath, trainFacesID);
+     for(int i=0;i<trainFacesPath.size();i++){
+         cout<<trainFacesPath[i]<<endl;;
 
-    listImagePaths(folderPath, outputFile);
-
-    outputFile.close();
-    std::cout << "Image paths written to " << outputPath << std::endl;
+     }
+     //read training data(faces, eigenvector, average face) from txt file
+//     Mat avgVec, eigenVec, facesInEigen;
+//     facesInEigen =  readFaces(int(trainFacesID.size()), loadedFacesID);
+//     avgVec = readMean();
+//     eigenVec = readEigen(int(trainFacesID.size()));
     return 0;
 }
 
