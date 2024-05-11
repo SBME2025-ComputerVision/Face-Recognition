@@ -1,8 +1,9 @@
 #ifndef FACEPREDICTION_H
 #define FACEPREDICTION_H
 
-#include <QWidget>
 
+#include <QWidget>
+#include <Controller/facepredictioncontroller.h>
 namespace Ui {
 class FacePrediction;
 }
@@ -22,6 +23,8 @@ private slots:
 
 private:
     Ui::FacePrediction *ui;
+    QPixmap img;
+    FacePredictionController *facePredictionController;
 };
 
 #endif // FACEPREDICTION_H

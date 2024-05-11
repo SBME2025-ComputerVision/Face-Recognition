@@ -17,6 +17,7 @@ SOURCES += \
     Helpers/gui_helper.cpp \
     Models/facedetection.cpp \
     Models/fetcher.cpp \
+    Models/image.cpp \
     Models/pca.cpp \
     Models/readfile.cpp \
     Views/faceprediction.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     Helpers/fileshelper.h \
     Models/facedetection.h \
     Models/fetcher.h \
+    Models/image.h \
     Models/pca.h \
     Models/readfile.h \
     Views/faceprediction.h \

@@ -6,6 +6,7 @@ FacePrediction::FacePrediction(QWidget *parent)
     , ui(new Ui::FacePrediction)
 {
     ui->setupUi(this);
+    facePredictionController = new FacePredictionController();
 }
 
 FacePrediction::~FacePrediction()
@@ -15,7 +16,9 @@ FacePrediction::~FacePrediction()
 
 void FacePrediction::on_uploadBtn_clicked()
 {
-
+    img = facePredictionController->uploadImg();
+    img = img.scaled(ui->inputLbl->size(),Qt::IgnoreAspectRatio);
+    ui->inputLbl->setPixmap(img);
 }
 
 
