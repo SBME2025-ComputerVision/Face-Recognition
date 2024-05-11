@@ -20,7 +20,7 @@ void readList(string& listFilePath, vector<string>& facesPath, vector<string>& f
     ifstream file(listFilePath.c_str(), ifstream::in);
 
     if (!file) {
-        qDebug() << "Fail to open file: " << listFilePath << "\n";
+//        qDebug() << "Fail to open file: " << listFilePath << "\n";
     }
 
     string line, path, id;
