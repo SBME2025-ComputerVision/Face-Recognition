@@ -8,6 +8,7 @@
 #include"Models/readfile.h"
 
 #include <iostream>
+#include"Helpers/fileshelper.h"
 
 namespace fs = std::filesystem;
 CascadeClassifier cascade;
@@ -35,24 +36,7 @@ std::vector<Mat> getFaces(std::string path){
     return faces;
 }
 
-void writeToFile(const Mat& eigenVector, const std::string& filename) {
-    std::ofstream outputFile(filename);
-    if (!outputFile.is_open()) {
-        std::cerr << "Failed to open output file!" << std::endl;
-        return;
-    }
 
-    // Write eigenVector matrix to file
-    for (int i = 0; i < eigenVector.rows; ++i) {
-        for (int j = 0; j < eigenVector.cols; ++j) {
-            outputFile << eigenVector.at<double>(i, j) << " ";
-        }
-        outputFile << std::endl;
-    }
-
-    outputFile.close();
-    std::cout << "EigenVector matrix written to " << filename << std::endl;
-}
 
 int main(int argc, char *argv[])
 {
@@ -64,54 +48,75 @@ int main(int argc, char *argv[])
      _PCA pca = _PCA(faces);
 
      Mat eigenVector = pca.getEigenvectors();
+     FilesHelper::writeToFile(eigenVector,"./data/eigens.txt");
+     Mat eigens= FilesHelper::readMatrixFromFile("./data/eigens.txt");
+     cout<<eigens;
 
-//     std::ofstream outputFile("eigenVector.txt");
-//       if (!outputFile.is_open()) {
-//           std::cerr << "Failed to open output file!" << std::endl;
-//           return 1;
-//       }
-
-//       // Write eigenVector matrix to file
-//       for (int i = 0; i < eigenVector.rows; ++i) {
-//           for (int j = 0; j < eigenVector.cols; ++j) {
-//               outputFile << eigenVector.at<double>(i, j) << " ";
-//           }
-//           outputFile << std::endl;
-//       }
-
-//       outputFile.close();
-//       std::cout << "EigenVector matrix written to eigenVector.txt" << std::endl;
 
 
 
 
      Mat weight = pca.getWeights();
-     writeToFile(weight,"weights.txt");
+//     writeToFile(weight,"weights.txt");
 
 
 
      qDebug()<<"Size of weightst: " << weight.rows<<"*"<< weight.cols <<"\n";
 
-     std::cout<<weight;
+//     std::cout<<weight;
 
      //reconstruct the faces
-     Mat recon;
-     recon = weight.t() * eigenVector;
+//     Mat recon;
+//     eigens.convertTo(eigens,CV_32FC1);
+//     recon = weight.t() * eigens;
 
 
-     // write eigenVectors to images
-     for (int i = 0; i < eigenVector.rows; i++) {
-         Mat eigenFace = eigenVector.row(i).clone();
+//     // write eigenVectors to images
+//     for (int i = 0; i < recon.rows; i++) {
+//         Mat eigenFace = recon.row(i).clone();
 
-         eigenFace *= 10000;        // add mean face
-         // Mat avg = pca.getAverage().t();
-         // eigenFace = eigenFace + avg;
-         eigenFace = eigenFace.reshape(1, 64);
+////         eigenFace *= 10000;        // add mean face
+//          Mat avg = pca.getAverage().t();
+////          eigenFace = eigenFace + avg;
+//         eigenFace = eigenFace.reshape(1, 64);
 
-         // std::cout<<eigenFace<<"\n";
-         eigenFace.convertTo(eigenFace, CV_8UC1);
-         imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
-     }
+//         // std::cout<<eigenFace<<"\n";
+//         eigenFace.convertTo(eigenFace, CV_8UC1);
+//         imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
+//     }
+
+         Mat recon;
+         eigens.convertTo(eigens,CV_32FC1);
+
+         recon = weight.t() * eigens;
+
+
+         // write eigenVectors to images
+         for (int i = 0; i < recon.rows; i++) {
+             Mat eigenFace = recon.row(i).clone();
+
+             // eigenFace *= 10000;        // add mean face
+             Mat avg = pca.getAverage().t();
+             eigenFace = eigenFace + avg;
+             eigenFace = eigenFace.reshape(1, 64);
+
+             // std::cout<<eigenFace<<"\n";
+             eigenFace.convertTo(eigenFace, CV_8UC1);
+             imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
+         }
+
+
+     vector<string>ids{"mariam","abdelrahman","ashf","ziad"};
+//     Mat data;
+//     string path="C:/Users/user/Documents/GitHub/Face-Recognition/FaceRecognition/data/eigenVector.txt";
+//     FilesHelper file;
+//     data=file.readMatrixFromFile(path);
+//     cout<<data;
+
+     FilesHelper::writeWeights(ids,weight.t());
+     vector<string>loadedWeights;
+     Mat w= FilesHelper::readWeights(4,loadedWeights);
+
 
      return 0;
 }
