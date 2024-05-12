@@ -25,10 +25,10 @@ void FaceDetection2::on_uploadImgBtn_clicked()
 
 void FaceDetection2::on_applyBtn_clicked()
 {
-    Mat image = facePredictionController->img->getOriginalImg();
-    liveController->predictPerson(image);
-    imgDetected = BasicHelpers::convertMatToPixmap(image);
-    imgDetected = img.scaled(ui->imageDetected->size(),Qt::IgnoreAspectRatio);
+    Mat frms = facePredictionController->img->getOriginalImg();
+    liveController->predictPerson2(frms);
+    imgDetected = BasicHelpers::convertMatToPixmap(frms);
+    imgDetected = imgDetected.scaled(ui->imageDetected->size(),Qt::IgnoreAspectRatio);
      ui->imageDetected->setPixmap(imgDetected);
 }
 

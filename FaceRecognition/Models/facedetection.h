@@ -14,6 +14,7 @@ public:
     FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <std::string> loadedWeights);
 
     void liveDetection(Mat& frame);
+    void liveDetection2(Mat& frame);
 
     void detectFaces(Mat faceImage);
     void recognize();

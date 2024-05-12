@@ -13,6 +13,7 @@ class LiveCameraController
 public:
     LiveCameraController();
     void predictPerson(Mat& frame);
+        void predictPerson2(Mat& frame);
 };
 
 #endif // LIVECAMERACONTROLLER_H
