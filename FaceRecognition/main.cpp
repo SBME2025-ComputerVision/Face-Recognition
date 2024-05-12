@@ -44,24 +44,24 @@ int main(int argc, char *argv[])
 
 
      std::vector<Mat> faces;
-     faces = getFaces("./Gallery/Faces/");
+     faces = getFaces("./dataset4");
      _PCA pca = _PCA(faces);
      Mat eigenVector = pca.getEigenvectors();
 
 
-    FilesHelper::writeToFile(eigenVector,"./data/eigen.txt");
+    FilesHelper::writeToFile(eigenVector,"./dataset4files/eigen.txt");
 
-    Mat eigens= FilesHelper::readMatrixFromFile("./data/eigen.txt");
+    Mat eigens= FilesHelper::readMatrixFromFile("./dataset4files/eigen.txt");
 
 //     cout<<eigens;
 
     Mat mean = pca.getAverage();
 
      cout<<"Mean Sz"<<mean.size()<<endl;
-    FilesHelper::writeMeanToFile(mean,"./data/mean.txt");
+    FilesHelper::writeMeanToFile(mean,"./dataset4files/mean.txt");
 
 
-     Mat meanRead= FilesHelper::readMeanFromFile("./data/mean.txt");
+     Mat meanRead= FilesHelper::readMeanFromFile("./dataset4files/mean.txt");
 
 //     cout<<"Mean"<<mean<<endl;
 //     cout<<"Mean Read"<<meanRead<<endl;
@@ -71,13 +71,13 @@ int main(int argc, char *argv[])
 
 
      Mat weight = pca.getWeights();
-     FilesHelper::writeToFile(weight,"weights.txt");
+//     FilesHelper::writeToFile(weight,"weights.txt");
 
-     vector<string>ids{"mariam","ashf","abdulrahman","ziad"};
+     vector<string>ids{"mariam","mariam","mariam","mariam","mariam","mariam","mariam","mariam","mariam","mariam","ashf","ashf","ashf","ashf","ashf","ashf","ashf","ashf","ashf","emad","emad","emad","emad","emad","emad","emad","emad","emad","ziad","ziad","ziad","ziad","ziad","ziad","ziad","ziad","mourad","mourad","mourad","mourad","mourad","mourad","mourad","mourad"};
 
-     FilesHelper::writeWeights(ids,weight.t());
+     FilesHelper::writeWeights(ids,weight);
      vector<string>loadedWeights;
-     Mat w= FilesHelper::readWeights(4,loadedWeights);
+     Mat w= FilesHelper::readWeights(44,loadedWeights);
 
 
 
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
      //reconstruct the faces
     Mat recon;
     eigens.convertTo(eigens,CV_32FC1);
-    recon = weight.t() * eigens;
+    recon = weight.t() * eigenVector;
 
 
 //     // write eigenVectors to images
@@ -104,6 +104,9 @@ int main(int argc, char *argv[])
         eigenFace.convertTo(eigenFace, CV_8UC1);
         imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
     }
+    Mat img=imread("./test/5-9.bmp");
+    FaceDetection hello(weight,eigenVector,mean,loadedWeights);
+    hello.detectFaces(img);
 
          // Mat recon;
          // eigens.convertTo(eigens,CV_32FC1);

@@ -11,7 +11,7 @@ class FaceDetection
 {
 public:
     FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <std::string> loadedWeights);
-    Mat detectFaces(Mat frame , std::string classifier, CascadeClassifier cascade);
+    Mat detectFaces(Mat faceImage);
     void recognize();
     void projectFace(Mat testVec);
     Mat prepareFace(Mat _testImg);

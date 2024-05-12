@@ -8,36 +8,56 @@ FaceDetection::FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <s
     this->loadedWeights = loadedWeights;
 }
 
-Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassifier cascade)
+//Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassifier cascade)
+//{
+
+//    if(!cascade.load(classifier)){
+//        qDebug()<< "Error";
+//        return Mat::zeros(frame.size(),frame.type());
+//    }
+
+//    qDebug()<< "Classifier loaded";
+
+//    Mat grey;
+//    cvtColor(frame,grey,COLOR_BGR2GRAY);
+
+//    /*
+//     * Detect faces with the classifier
+//    */
+//    std::vector<Rect> faces;
+//    cascade.detectMultiScale(grey,faces);
+
+//    for (int i = 0; i < faces.size(); ++i) {
+//          Mat faceROI = grey(faces[i]);
+//          imwrite("yah"+to_string(i)+".png",faceROI);
+//          faceROI = prepareFace(faceROI);
+//          projectFace(faceROI);
+//          recognize();
+//    }
+
+// return grey;
+
+//}
+Mat FaceDetection::detectFaces(Mat faceImage)
 {
-
-    if(!cascade.load(classifier)){
-        qDebug()<< "Error";
-        return Mat::zeros(frame.size(),frame.type());
-    }
-
-    qDebug()<< "Classifier loaded";
-
     Mat grey;
-    cvtColor(frame,grey,COLOR_BGR2GRAY);
+    cvtColor(faceImage, grey, COLOR_BGR2GRAY);
 
-    /*
-     * Detect faces with the classifier
-    */
-    std::vector<Rect> faces;
-    cascade.detectMultiScale(grey,faces);
+    // Assuming 'cascade' and other necessary variables are already initialized
 
-    for (int i = 0; i < faces.size(); ++i) {
-          Mat faceROI = grey(faces[i]);
-          imwrite("yah"+to_string(i)+".png",faceROI);
-          faceROI = prepareFace(faceROI);
-          projectFace(faceROI);
-          recognize();
-    }
+    // Preprocess the face image if needed
+    Mat processedFace = prepareFace(grey);
 
- return grey;
+    // Project the face for recognition
+    projectFace(processedFace);
 
+    // Recognize the face
+    recognize();
+
+    // Return the grey image (original image) or you can return any other result as needed
+    return grey;
 }
+
 
 void FaceDetection::recognize()
 {
