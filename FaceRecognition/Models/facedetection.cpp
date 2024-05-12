@@ -8,6 +8,25 @@ FaceDetection::FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <s
     this->loadedWeights = loadedWeights;
 }
 
+void FaceDetection::liveDetection(Mat &frame)
+{
+    Mat grey;
+    cvtColor(frame,grey,COLOR_BGR2GRAY);
+
+    /*
+    * Detect faces with the classifier
+   */
+    detectFaces(frame);
+    string face = closetFaceID;
+    std::vector<Rect> faces;
+    cascade.detectMultiScale(grey,faces);
+    // Draw rectangles around the faces
+    for (int i = 0; i < faces.size(); ++i) {
+        rectangle(frame, faces[i], Scalar(255, 0, 0), 2);
+        putText(frame, face, Point(faces[i].x, faces[i].y), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 255, 0), 2);
+    }
+}
+
 //Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassifier cascade)
 //{
 
@@ -18,14 +37,7 @@ FaceDetection::FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <s
 
 //    qDebug()<< "Classifier loaded";
 
-//    Mat grey;
-//    cvtColor(frame,grey,COLOR_BGR2GRAY);
 
-//    /*
-//     * Detect faces with the classifier
-//    */
-//    std::vector<Rect> faces;
-//    cascade.detectMultiScale(grey,faces);
 
 //    for (int i = 0; i < faces.size(); ++i) {
 //          Mat faceROI = grey(faces[i]);

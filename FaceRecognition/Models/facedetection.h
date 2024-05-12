@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<opencv2/opencv.hpp>
+#include "config.h"
 
 using namespace cv;
 using namespace std;
@@ -11,6 +12,9 @@ class FaceDetection
 {
 public:
     FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <std::string> loadedWeights);
+
+    void liveDetection(Mat& frame);
+
     void detectFaces(Mat faceImage);
     void recognize();
     void projectFace(Mat testVec);

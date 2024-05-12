@@ -1,7 +1,9 @@
 #ifndef LIVECAMERAWIDGET_H
 #define LIVECAMERAWIDGET_H
 
-#include "opencv2/videoio.hpp"
+#include <opencv2/videoio.hpp>
+#include "Controller/livecameracontroller.h"
+
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QMessageBox>
@@ -30,6 +32,7 @@ private:
     QGraphicsPixmapItem pixmap;
     cv::VideoCapture video;
     QTimer timer;
+    LiveCameraController* liveController;
 
 };
 
