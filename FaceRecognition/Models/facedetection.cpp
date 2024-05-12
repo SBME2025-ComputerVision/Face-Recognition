@@ -27,29 +27,8 @@ void FaceDetection::liveDetection(Mat &frame)
     }
 }
 
-//Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassifier cascade)
-//{
-
-//    if(!cascade.load(classifier)){
-//        qDebug()<< "Error";
-//        return Mat::zeros(frame.size(),frame.type());
-//    }
-
-//    qDebug()<< "Classifier loaded";
 
 
-
-//    for (int i = 0; i < faces.size(); ++i) {
-//          Mat faceROI = grey(faces[i]);
-//          imwrite("yah"+to_string(i)+".png",faceROI);
-//          faceROI = prepareFace(faceROI);
-//          projectFace(faceROI);
-//          recognize();
-//    }
-
-// return grey;
-
-//}
 void FaceDetection::detectFaces(Mat faceImage)
 {
     Mat grey;

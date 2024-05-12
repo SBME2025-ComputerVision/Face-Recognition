@@ -15,7 +15,7 @@ public:
     Image* img;
     QPixmap uploadImg();
     string predictPerson();
-
+    Mat detectFace();
 
 
 

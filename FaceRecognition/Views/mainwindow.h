@@ -6,6 +6,7 @@
 #include "Helpers/gui_helper.h"
 #include "Views/livecamerawidget.h"
 #include "Views/faceprediction.h"
+#include "Views/facedetection2.h"
 #include "config.h"
 
 QT_BEGIN_NAMESPACE
@@ -29,6 +30,8 @@ private slots:
 
     void on_dataAndModelBtn_clicked();
 
+    void on_faceDetectionBtn_clicked();
+
 private:
 
     Ui::MainWindow *ui;
@@ -36,5 +39,6 @@ private:
     QList<QPushButton*> menuBtns;
     QWidget* liveCameraWidget;
     QWidget* facePredictionWidget;
+    QWidget* faceDetectionWidget;
 };
 #endif // MAINWINDOW_H
