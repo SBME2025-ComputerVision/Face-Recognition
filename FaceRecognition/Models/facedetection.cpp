@@ -59,14 +59,18 @@ void FaceDetection::recognize()
         Mat src2 = projectedFace;
 
         double dist = norm(src1, src2, NORM_L2);
-        cout << dist << endl ;
+    //    cout << dist << endl ;
         if (dist < minDist) {
             minDist = dist;
             min_index = i;
         }
     }
+    if(minDist>=3500){
+    this->closetFaceID = "Unknown";
+    }
+    else{
     this->closetFaceID = loadedWeights[min_index];
-//    cout<<loadedWeights[min_index]<<endl;
+    }
 }
 
 void FaceDetection::projectFace(Mat testVec)
