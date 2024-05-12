@@ -15,7 +15,6 @@ SOURCES += \
     Controller/livecameracontroller.cpp \
     Helpers/fileshelper.cpp \
     Helpers/gui_helper.cpp \
-    Helpers/fileshelper.cpp \
     Models/facedetection.cpp \
     Models/fetcher.cpp \
     Models/image.cpp \
@@ -33,7 +32,6 @@ HEADERS += \
     Controller/livecameracontroller.h \
     Helpers/fileshelper.h \
     Helpers/gui_helper.h \
-    Helpers/fileshelper.h \
     Models/facedetection.h \
     Models/fetcher.h \
     Models/image.h \
@@ -54,9 +52,9 @@ FORMS += \
 
 
 
-INCLUDEPATH += C:\tools\opencv\release\install\include
+INCLUDEPATH += D:\tools\opencv\release\install\include
 
-LIBS += -LC:\tools\opencv\release\lib\
+LIBS += -LD:\tools\opencv\release\lib\
     -lopencv_calib3d490                 \
     -lopencv_core490                    \
     -lopencv_features2d490              \
