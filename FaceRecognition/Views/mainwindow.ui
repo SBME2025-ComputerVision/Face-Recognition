@@ -129,9 +129,16 @@ QFrame{
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Face Detection</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="dataAndModelBtn">
          <property name="text">
-          <string>Data and The Model</string>
+          <string>Accuracy &amp;&amp; ROC</string>
          </property>
         </widget>
        </item>
