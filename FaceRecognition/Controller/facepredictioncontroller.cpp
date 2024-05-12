@@ -1,5 +1,6 @@
 #include "facepredictioncontroller.h"
-#include "Helpers/basichelpers.h"
+
+
 FacePredictionController::FacePredictionController() {
     img = new Image();
 }
@@ -15,4 +16,20 @@ QPixmap FacePredictionController::uploadImg() {
         }
     }
     return BasicHelpers::convertMatToPixmap(Mat::zeros(1,1,CV_8UC1)); // Returns a blank QPixmap if image loading fails
+}
+
+
+
+
+string FacePredictionController::predictPerson()
+{
+         Mat eigens= pcaInstance.getEigenvectors();
+         Mat meanRead= pcaInstance.getAverage();
+         vector<string>loadedWeights;
+         Mat _= FilesHelper::readWeights(labelsSize,loadedWeights);
+         Mat w = pcaInstance.getWeights();
+         Mat image = img->getOriginalImg();
+         FaceDetection hello(w,eigens,meanRead,loadedWeights);
+         hello.detectFaces(image);
+         return hello.getFaceId();
 }

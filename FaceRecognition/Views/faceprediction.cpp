@@ -24,6 +24,6 @@ void FacePrediction::on_uploadBtn_clicked()
 
 void FacePrediction::on_detectBtn_clicked()
 {
-
+   ui->outputLbl->setText( QString::fromStdString(facePredictionController->predictPerson()));
 }
 

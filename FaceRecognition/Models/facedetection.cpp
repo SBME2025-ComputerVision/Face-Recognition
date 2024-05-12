@@ -38,7 +38,7 @@ FaceDetection::FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <s
 // return grey;
 
 //}
-Mat FaceDetection::detectFaces(Mat faceImage)
+void FaceDetection::detectFaces(Mat faceImage)
 {
     Mat grey;
     cvtColor(faceImage, grey, COLOR_BGR2GRAY);
@@ -55,7 +55,6 @@ Mat FaceDetection::detectFaces(Mat faceImage)
     recognize();
 
     // Return the grey image (original image) or you can return any other result as needed
-    return grey;
 }
 
 
@@ -75,7 +74,8 @@ void FaceDetection::recognize()
             min_index = i;
         }
     }
-    cout<<loadedWeights[min_index]<<endl;
+    this->closetFaceID = loadedWeights[min_index];
+//    cout<<loadedWeights[min_index]<<endl;
 }
 
 void FaceDetection::projectFace(Mat testVec)
@@ -97,6 +97,11 @@ Mat FaceDetection::prepareFace(Mat faceROI)
     resize(faceROI, faceROI, newSize);
     faceROI = faceROI.reshape(1, (faceROI.rows * faceROI.cols));
    faceROI.convertTo(faceROI,CV_32FC1);
-return faceROI;
+   return faceROI;
+}
+
+string FaceDetection::getFaceId()
+{
+    return closetFaceID;
 }
 
