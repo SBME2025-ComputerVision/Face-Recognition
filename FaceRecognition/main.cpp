@@ -11,7 +11,7 @@
 #include"Helpers/fileshelper.h"
 #include "config.h"
 
-CascadeClassifier cascade;
+
 
 namespace fs = std::filesystem;
 map<string,int> idToPerson;
@@ -57,6 +57,14 @@ std::vector<Mat> getFaces(std::string path){
 
 int main(int argc, char *argv[])
 {
+    string classifier = "./Assets/haarcascade_frontalface_alt.xml";
+
+   if(!cascade.load(classifier)){
+       qDebug()<< "Error in casscade";
+       return 1;
+   }
+   qDebug()<< "Classifier loaded";
+
 
   // Precompute PCA for all dataset
    std::vector<Mat> faces;

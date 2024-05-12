@@ -6,6 +6,7 @@ LiveCameraWidget::LiveCameraWidget(QWidget *parent)
     , ui(new Ui::LiveCameraWidget)
 {
     ui->setupUi(this);
+    liveController = new LiveCameraController();
     ui->liveView->setScene(new QGraphicsScene(this));
 }
 
@@ -45,7 +46,7 @@ void LiveCameraWidget::on_cameraBtn_clicked()
 
         if(!frame.empty())
         {
-            // faces_detection(frame, frame);
+            liveController->predictPerson(frame);
 
             QImage qimg(frame.data,
                         frame.cols,
