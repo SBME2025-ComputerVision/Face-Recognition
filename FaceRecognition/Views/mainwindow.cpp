@@ -8,8 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     liveCameraWidget = new LiveCameraWidget();
+    facePredictionWidget = new FacePrediction();
 
-
+    ui->stackedWidget->addWidget(facePredictionWidget);
     ui->stackedWidget->addWidget(liveCameraWidget);
 
     menuBtns.append(ui->liveCameraBtn);
@@ -33,6 +34,7 @@ void MainWindow::on_liveCameraBtn_clicked()
 
 void MainWindow::on_faceRecognitionBtn_clicked()
 {
+    ui->stackedWidget->setCurrentWidget(facePredictionWidget);
     GUI_HELPER::changeBtnsStyle(menuBtns,inactiveBtnStyle);
     GUI_HELPER::changeBtnStyle(ui->faceRecognitionBtn,activeBtnStyle);
 }

@@ -10,38 +10,45 @@
 #include <iostream>
 #include"Helpers/fileshelper.h"
 
-namespace fs = std::filesystem;
-CascadeClassifier cascade;
 
-std::vector<Mat> getFaces(std::string path){
-    std::vector<Mat> faces;
-    Size targetSize = cv::Size(64,64);
-    // Iterate over files in the folder
-    for (const auto& entry : fs::directory_iterator(path)) {
-        if (entry.is_regular_file()) {
-            std::string imagePath = entry.path().string();
-            Mat image = cv::imread(imagePath, cv::IMREAD_GRAYSCALE);
+int main(int argc, char *argv[])
+{
 
-            if (!image.empty()) {
-                faces.push_back(image);
-            }
-        }
-    }
-    for(int i = 0; i < faces.size(); i++) {
-        resize(faces[i], faces[i], targetSize);
-    }
-    for (int i = 0; i < faces.size(); i++) {
-        faces[i].convertTo(faces[i],CV_32FC1);
-    }
-    return faces;
+   QApplication a(argc, argv);
+   MainWindow w;
+   w.show();
+   return a.exec();
 }
 
 
 
 
-int main(int argc, char *argv[])
-{
+/////////////////////////////////////////////////////////////////////////////OLD////////////////////////////////////////////
+// namespace fs = std::filesystem;
+// CascadeClassifier cascade;
 
+// std::vector<Mat> getFaces(std::string path){
+//     std::vector<Mat> faces;
+//     Size targetSize = cv::Size(64,64);
+//     // Iterate over files in the folder
+//     for (const auto& entry : fs::directory_iterator(path)) {
+//         if (entry.is_regular_file()) {
+//             std::string imagePath = entry.path().string();
+//             Mat image = cv::imread(imagePath, cv::IMREAD_GRAYSCALE);
+
+//             if (!image.empty()) {
+//                 faces.push_back(image);
+//             }
+//         }
+//     }
+//     for(int i = 0; i < faces.size(); i++) {
+//         resize(faces[i], faces[i], targetSize);
+//     }
+//     for (int i = 0; i < faces.size(); i++) {
+//         faces[i].convertTo(faces[i],CV_32FC1);
+//     }
+//     return faces;
+// }
 
      std::vector<Mat> faces;
      faces = getFaces("./dataset4");
@@ -53,7 +60,10 @@ int main(int argc, char *argv[])
 
     Mat eigens= FilesHelper::readMatrixFromFile("./dataset4files/eigen.txt");
 
-//     cout<<eigens;
+
+// int main(int argc, char *argv[])
+// {
+
 
     Mat mean = pca.getAverage();
 
@@ -61,13 +71,21 @@ int main(int argc, char *argv[])
     FilesHelper::writeMeanToFile(mean,"./dataset4files/mean.txt");
 
 
+//      Mat eigenVector = pca.getEigenvectors();
+//     // FilesHelper::writeToFile(eigenVector,"./data/eigen.txt");
+
      Mat meanRead= FilesHelper::readMeanFromFile("./dataset4files/mean.txt");
 
-//     cout<<"Mean"<<mean<<endl;
-//     cout<<"Mean Read"<<meanRead<<endl;
+
+// //     cout<<eigens;
+
+//      Mat mean = pca.getAverage();
+
+//      cout<<"Mean Sz"<<mean.size()<<endl;
+//   //   FilesHelper::writeMeanToFile(mean,"./data/mean.txt");
 
 
-
+//      Mat meanRead= FilesHelper::readMeanFromFile("./data/mean.txt");
 
 
      Mat weight = pca.getWeights();
@@ -81,9 +99,9 @@ int main(int argc, char *argv[])
 
 
 
-     qDebug()<<"Size of weightst: " << weight.rows<<"*"<< weight.cols <<"\n";
 
-//     std::cout<<weight;
+
+
 
      //reconstruct the faces
     Mat recon;
@@ -114,6 +132,11 @@ int main(int argc, char *argv[])
          // recon = weight.t() * eigens;
 
 
+// //     // write eigenVectors to images
+// //     for (int i = 0; i < recon.rows; i++) {
+// //         Mat eigenFace = recon.row(i).clone();
+
+
          // write eigenVectors to images
 //          for (int i = 0; i < recon.rows; i++) {
 //              Mat eigenFace = recon.row(i).clone();
@@ -130,10 +153,36 @@ int main(int argc, char *argv[])
 //          }
 
 
+//          recon = weight.t() * eigens;
 
 
 
-     return 0;
-}
+
+//              // eigenFace *= 10000;        // add mean face
+// //             Mat avg = pca.getAverage().t();
+// //             eigenFace = eigenFace + avg;
+//              eigenFace = eigenFace + meanRead.t();
+//              eigenFace = eigenFace.reshape(1, 64);
+
+//              // std::cout<<eigenFace<<"\n";
+//              eigenFace.convertTo(eigenFace, CV_8UC1);
+//              imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
+//          }
+
+
+//      vector<string>ids{"mariam","abdelrahman","ashf","ziad"};
+// //     Mat data;
+// //     string path="C:/Users/user/Documents/GitHub/Face-Recognition/FaceRecognition/data/eigenVector.txt";
+// //     FilesHelper file;
+// //     data=file.readMatrixFromFile(path);
+// //     cout<<data;
+
+//      FilesHelper::writeWeights(ids,weight.t());
+//      vector<string>loadedWeights;
+//      Mat w= FilesHelper::readWeights(4,loadedWeights);
+
+
+//      return 0;
+// }
 
 

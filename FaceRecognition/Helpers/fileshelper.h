@@ -19,7 +19,6 @@ public:
     static Mat readMeanFromFile(const std::string& filename);
     static void writeWeights(vector<string>& _trainFacesID,Mat weights);
     static Mat readWeights(int noOfFaces,vector<string>& loadedFaceID);
-
 };
 
 #endif // FILESHELPER_H
