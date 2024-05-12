@@ -11,11 +11,10 @@ class FaceDetection
 {
 public:
     FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <std::string> loadedWeights);
-    Mat detectFaces(Mat faceImage);
+    void detectFaces(Mat faceImage);
     void recognize();
     void projectFace(Mat testVec);
     Mat prepareFace(Mat _testImg);
-
     string getFaceId();
     double getDistance();
 

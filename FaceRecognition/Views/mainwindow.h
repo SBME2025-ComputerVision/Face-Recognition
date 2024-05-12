@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include "Helpers/gui_helper.h"
 #include "Views/livecamerawidget.h"
+#include "Views/faceprediction.h"
 #include "config.h"
 
 QT_BEGIN_NAMESPACE
@@ -34,5 +35,6 @@ private:
     int index;
     QList<QPushButton*> menuBtns;
     QWidget* liveCameraWidget;
+    QWidget* facePredictionWidget;
 };
 #endif // MAINWINDOW_H

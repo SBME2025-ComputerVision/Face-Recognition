@@ -2,8 +2,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
-CONFIG += link_pkgconfig
+# CONFIG += c++17
+# CONFIG += link_pkgconfig
 PKGCONFIG += opencv4
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -11,31 +11,40 @@ PKGCONFIG += opencv4
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Controller/facepredictioncontroller.cpp \
     Controller/livecameracontroller.cpp \
-    Helpers/gui_helper.cpp \
     Helpers/fileshelper.cpp \
+    Helpers/gui_helper.cpp \
     Models/facedetection.cpp \
     Models/fetcher.cpp \
+    Models/image.cpp \
     Models/pca.cpp \
     Models/readfile.cpp \
+    Views/faceprediction.cpp \
     Views/livecamerawidget.cpp \
+    Helpers/basichelpers.cpp \
     main.cpp \
     Views/mainwindow.cpp \
     config.cpp \
 
 HEADERS += \
+    Controller/facepredictioncontroller.h \
     Controller/livecameracontroller.h \
     Helpers/fileshelper.h \
     Helpers/gui_helper.h \
     Models/facedetection.h \
     Models/fetcher.h \
+    Models/image.h \
     Models/pca.h \
     Models/readfile.h \
+    Views/faceprediction.h \
     Views/livecamerawidget.h \
     Views/mainwindow.h \
+    Helpers/basichelpers.h \
     config.h \
 
 FORMS += \
+    Views/faceprediction.ui \
     Views/livecamerawidget.ui \
     Views/mainwindow.ui
 
@@ -43,22 +52,22 @@ FORMS += \
 
 
 
-# INCLUDEPATH += D:\tools\opencv\release\install\include
+INCLUDEPATH += D:\tools\opencv\release\install\include
 
-# LIBS += -LD:\tools\opencv\release\lib\
-#     -lopencv_calib3d490                 \
-#     -lopencv_core490                    \
-#     -lopencv_features2d490              \
-#     -lopencv_flann490                   \
-#     -lopencv_highgui490                 \
-#     -lopencv_imgproc490                 \
-#     -lopencv_imgcodecs490               \
-#     -lopencv_photo490                   \
-#     -lopencv_stitching490               \
-#     -lopencv_ts490                      \
-#     -lopencv_video490                   \
-#     -lopencv_videoio490                 \
-#     -lopencv_objdetect490               \
+LIBS += -LD:\tools\opencv\release\lib\
+    -lopencv_calib3d490                 \
+    -lopencv_core490                    \
+    -lopencv_features2d490              \
+    -lopencv_flann490                   \
+    -lopencv_highgui490                 \
+    -lopencv_imgproc490                 \
+    -lopencv_imgcodecs490               \
+    -lopencv_photo490                   \
+    -lopencv_stitching490               \
+    -lopencv_ts490                      \
+    -lopencv_video490                   \
+    -lopencv_videoio490                 \
+    -lopencv_objdetect490               \
 
 
 # Default rules for deployment.

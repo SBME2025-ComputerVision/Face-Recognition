@@ -3,6 +3,11 @@
 
 #define SHOW_IMAGE 0
 
+_PCA::_PCA()
+{
+
+}
+
 _PCA::_PCA(vector<Mat> faces){
     getImgSize(faces);
     imgRows = faces[0].rows;

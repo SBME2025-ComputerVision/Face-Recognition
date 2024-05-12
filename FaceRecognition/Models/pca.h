@@ -23,6 +23,7 @@ using namespace cv;
 class _PCA
 {
 public:
+    _PCA();
     _PCA(vector<Mat> faces);
     Mat getFacesMatrix();
     Mat getAverage();
