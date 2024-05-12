@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     menuBtns.append(ui->liveCameraBtn);
     menuBtns.append(ui->faceRecognitionBtn);
     menuBtns.append(ui->dataAndModelBtn);
+    ui->stackedWidget->setCurrentWidget(liveCameraWidget);
     GUI_HELPER::changeBtnStyle(ui->liveCameraBtn,activeBtnStyle);
 }
 
