@@ -1,75 +1,102 @@
 #include "facedetection.h"
 #include "qdebug.h"
 
-FaceDetection::FaceDetection() {}
+FaceDetection::FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <std::string> loadedWeights) {
+    this->eigenFaces= eigenFaces;
+    this->weights = weights;
+    this->mean = mean;
+    this->loadedWeights = loadedWeights;
+}
 
-Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassifier cascade)
+//Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassifier cascade)
+//{
+
+//    if(!cascade.load(classifier)){
+//        qDebug()<< "Error";
+//        return Mat::zeros(frame.size(),frame.type());
+//    }
+
+//    qDebug()<< "Classifier loaded";
+
+//    Mat grey;
+//    cvtColor(frame,grey,COLOR_BGR2GRAY);
+
+//    /*
+//     * Detect faces with the classifier
+//    */
+//    std::vector<Rect> faces;
+//    cascade.detectMultiScale(grey,faces);
+
+//    for (int i = 0; i < faces.size(); ++i) {
+//          Mat faceROI = grey(faces[i]);
+//          imwrite("yah"+to_string(i)+".png",faceROI);
+//          faceROI = prepareFace(faceROI);
+//          projectFace(faceROI);
+//          recognize();
+//    }
+
+// return grey;
+
+//}
+Mat FaceDetection::detectFaces(Mat faceImage)
 {
-
-    if(!cascade.load(classifier)){
-        qDebug()<< "Error";
-        return Mat::zeros(frame.size(),frame.type());
-    }
-
-    qDebug()<< "Classifier loaded";
-
     Mat grey;
-    cvtColor(frame,grey,COLOR_BGR2GRAY);
+    cvtColor(faceImage, grey, COLOR_BGR2GRAY);
 
-    /*
-     * Detect faces with the classifier
-    */
-    std::vector<Rect> faces;
-    cascade.detectMultiScale(grey,faces);
+    // Assuming 'cascade' and other necessary variables are already initialized
 
-    for (int i = 0; i < faces.size(); ++i) {
+    // Preprocess the face image if needed
+    Mat processedFace = prepareFace(grey);
 
-        Mat faceROI = grey(faces[i]);
-        std::string faceName = "./Gallery/face" + std::to_string(i) + ".jpg";
-        imwrite(faceName,faceROI);
+    // Project the face for recognition
+    projectFace(processedFace);
 
+    // Recognize the face
+    recognize();
 
-        double cX,cY;
-        cX = (faces[i].x + faces[i].width)/2;
-        cY = (faces[i].y + faces[i].height)/2;
-        Point center(cX,cY);
-        rectangle(frame,faces[i],Scalar(255,0,0),2);
-    }
-    imwrite("./Gallery/faces.jpg",frame);
-    return frame;
+    // Return the grey image (original image) or you can return any other result as needed
+    return grey;
 }
 
 
-Mat FaceDetection::flattenFaces(std::vector<Mat> faces)
+void FaceDetection::recognize()
 {
-    Size targetSize = Size(64,64);
 
-    // Resizing faces
-    for(int i = 0; i < faces.size(); i++) {
-        resize(faces[i], faces[i], targetSize);
+    int minDist = INT_MAX;
+    int min_index = -1;
+    for (int i =0; i < loadedWeights.size(); i++) {
+        Mat src1 = weights.col(i);
+        Mat src2 = projectedFace;
+
+        double dist = norm(src1, src2, NORM_L2);
+        cout << dist << endl ;
+        if (dist < minDist) {
+            minDist = dist;
+            min_index = i;
+        }
     }
-
-    // Debugging output
-    std::cout << "Number of faces: " << faces.size() << std::endl;
-
-    // Creating the matrix to hold all flattened faces
-    Mat all_data = Mat::zeros(static_cast<int>(faces.size()), targetSize.width * targetSize.height, CV_8UC1);
-
-    // Debugging output
-    std::cout << "all_data size: " << all_data.size() << std::endl;
-
-    // Copying each flattened image data to a row in all_data
-    for(int i = 0; i < faces.size(); i++) {
-        Mat currentFace = faces[i];
-        // Reshape currentFace to be a row vector
-        Mat row = currentFace.reshape(1, 1);
-        // Debugging output
-        std::cout << "Row size: " << row.size() << std::endl;
-        // Copy the data of the row vector to the corresponding row in all_data
-        row.copyTo(all_data.row(i));
-    }
-
-    return all_data;
+    cout<<loadedWeights[min_index]<<endl;
 }
 
+void FaceDetection::projectFace(Mat testVec)
+{
+    Mat tmpData;
+    cout << testVec.type()<<endl;
+    cout << mean.type() << endl;
+    cout << testVec.rows << "X" << testVec.cols <<endl;
+    cout << eigenFaces.rows << "X" << eigenFaces.cols <<endl;
+    mean.convertTo(mean,CV_32FC1);
+    testVec.convertTo(testVec,CV_32FC1);
+    subtract(testVec, mean, tmpData);
+    projectedFace = eigenFaces * tmpData;
+}
+
+Mat FaceDetection::prepareFace(Mat faceROI)
+{
+    Size newSize(64, 64);
+    resize(faceROI, faceROI, newSize);
+    faceROI = faceROI.reshape(1, (faceROI.rows * faceROI.cols));
+   faceROI.convertTo(faceROI,CV_32FC1);
+return faceROI;
+}
 

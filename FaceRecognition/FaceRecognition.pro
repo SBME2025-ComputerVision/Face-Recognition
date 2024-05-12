@@ -15,6 +15,7 @@ SOURCES += \
     Controller/livecameracontroller.cpp \
     Helpers/fileshelper.cpp \
     Helpers/gui_helper.cpp \
+    Helpers/fileshelper.cpp \
     Models/facedetection.cpp \
     Models/fetcher.cpp \
     Models/image.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
 HEADERS += \
     Controller/facepredictioncontroller.h \
     Controller/livecameracontroller.h \
+    Helpers/fileshelper.h \
     Helpers/gui_helper.h \
     Helpers/fileshelper.h \
     Models/facedetection.h \

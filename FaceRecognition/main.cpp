@@ -50,21 +50,32 @@ int main(int argc, char *argv[])
 //     return faces;
 // }
 
+     std::vector<Mat> faces;
+     faces = getFaces("./dataset4");
+     _PCA pca = _PCA(faces);
+     Mat eigenVector = pca.getEigenvectors();
 
+
+    FilesHelper::writeToFile(eigenVector,"./dataset4files/eigen.txt");
+
+    Mat eigens= FilesHelper::readMatrixFromFile("./dataset4files/eigen.txt");
 
 
 // int main(int argc, char *argv[])
 // {
 
 
-//      std::vector<Mat> faces;
-//      faces = getFaces("./Gallery/Faces/");
-//      _PCA pca = _PCA(faces);
+    Mat mean = pca.getAverage();
+
+     cout<<"Mean Sz"<<mean.size()<<endl;
+    FilesHelper::writeMeanToFile(mean,"./dataset4files/mean.txt");
+
 
 //      Mat eigenVector = pca.getEigenvectors();
 //     // FilesHelper::writeToFile(eigenVector,"./data/eigen.txt");
 
-//      Mat eigens= FilesHelper::readMatrixFromFile("./data/eigen.txt");
+     Mat meanRead= FilesHelper::readMeanFromFile("./dataset4files/mean.txt");
+
 
 // //     cout<<eigens;
 
@@ -76,51 +87,76 @@ int main(int argc, char *argv[])
 
 //      Mat meanRead= FilesHelper::readMeanFromFile("./data/mean.txt");
 
-// //     cout<<"Mean"<<mean<<endl;
-// //     cout<<"Mean Read"<<meanRead<<endl;
+
+     Mat weight = pca.getWeights();
+//     FilesHelper::writeToFile(weight,"weights.txt");
+
+     vector<string>ids{"mariam","mariam","mariam","mariam","mariam","mariam","mariam","mariam","mariam","mariam","ashf","ashf","ashf","ashf","ashf","ashf","ashf","ashf","ashf","emad","emad","emad","emad","emad","emad","emad","emad","emad","ziad","ziad","ziad","ziad","ziad","ziad","ziad","ziad","mourad","mourad","mourad","mourad","mourad","mourad","mourad","mourad"};
+
+     FilesHelper::writeWeights(ids,weight);
+     vector<string>loadedWeights;
+     Mat w= FilesHelper::readWeights(44,loadedWeights);
 
 
 
 
 
-//      Mat weight = pca.getWeights();
-// //     writeToFile(weight,"weights.txt");
 
 
+     //reconstruct the faces
+    Mat recon;
+    eigens.convertTo(eigens,CV_32FC1);
+    recon = weight.t() * eigenVector;
 
-//      qDebug()<<"Size of weightst: " << weight.rows<<"*"<< weight.cols <<"\n";
 
-// //     std::cout<<weight;
+//     // write eigenVectors to images
+    for (int i = 0; i < recon.rows; i++) {
+        Mat eigenFace = recon.row(i).clone();
 
-//      //reconstruct the faces
-// //     Mat recon;
-// //     eigens.convertTo(eigens,CV_32FC1);
-// //     recon = weight.t() * eigens;
+        // eigenFace *= 10000;        // add mean face
+         Mat avg = pca.getAverage().t();
+         eigenFace = eigenFace + avg;
+        eigenFace = eigenFace.reshape(1, 64);
+
+        // std::cout<<eigenFace<<"\n";
+        eigenFace.convertTo(eigenFace, CV_8UC1);
+        imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
+    }
+    Mat img=imread("./test/5-9.bmp");
+    FaceDetection hello(weight,eigenVector,mean,loadedWeights);
+    hello.detectFaces(img);
+
+         // Mat recon;
+         // eigens.convertTo(eigens,CV_32FC1);
+
+         // recon = weight.t() * eigens;
 
 
 // //     // write eigenVectors to images
 // //     for (int i = 0; i < recon.rows; i++) {
 // //         Mat eigenFace = recon.row(i).clone();
 
-// ////         eigenFace *= 10000;        // add mean face
-// //          Mat avg = pca.getAverage().t();
-// ////          eigenFace = eigenFace + avg;
-// //         eigenFace = eigenFace.reshape(1, 64);
 
-// //         // std::cout<<eigenFace<<"\n";
-// //         eigenFace.convertTo(eigenFace, CV_8UC1);
-// //         imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
-// //     }
+         // write eigenVectors to images
+//          for (int i = 0; i < recon.rows; i++) {
+//              Mat eigenFace = recon.row(i).clone();
 
-//          Mat recon;
-//          eigens.convertTo(eigens,CV_32FC1);
+//              // eigenFace *= 10000;        // add mean face
+// //             Mat avg = pca.getAverage().t();
+// //             eigenFace = eigenFace + avg;
+//              eigenFace = eigenFace + meanRead.t();
+//              eigenFace = eigenFace.reshape(1, 64);
+
+//              // std::cout<<eigenFace<<"\n";
+//              eigenFace.convertTo(eigenFace, CV_8UC1);
+//              imwrite("./Gallery/" + std::to_string(i) + ".jpg", eigenFace);
+//          }
+
 
 //          recon = weight.t() * eigens;
 
 
-//          // write eigenVectors to images
-//          for (int i = 0; i < recon.rows; i++) {
-//              Mat eigenFace = recon.row(i).clone();
+
 
 //              // eigenFace *= 10000;        // add mean face
 // //             Mat avg = pca.getAverage().t();
@@ -150,68 +186,3 @@ int main(int argc, char *argv[])
 // }
 
 
-
-
-
-
-
-    // std::string faceClassifier = "./Assets/haarcascade_frontalface_alt.xml";
-    // std::string faceClassifier2 = "./Assets/haarcascade_frontalface_alt2.xml";
-    // std::string faceClassifier3 = "./Assets/haarcascade_frontalcatface.xml";
-    // std::string faceClassifier4 = "./Assets/haarcascade_frontalface_default.xml";
-    // std::string faceClassifier5 = "./Assets/haarcascade_frontalface_alt_tree.xml";
-    // std::string faceClassifier6 = "./Assets/haarcascade_frontalcatface_extended.xml";
-
-//     Mat img;
-//     std::vector<Mat> faces;
-
-//     img = imread("./Gallery/originalBoys.jpg");
-//     img = FaceDetection::detectFaces(img,faceClassifier,cascade);
-
-//     //for each file in ./Gallery/Faces/ folder add to faces vector
-//     for (const auto & entry : fs::directory_iterator("./Gallery/Faces/")) {
-//         Mat face = imread(entry.path().string(),CV_8UC1);
-//         faces.push_back(face);
-//     }
-//     Mat data = FaceDetection::flattenFaces(faces);
-
-
-
-
-
-
-//     Mat tmp = pcas.row(0).reshape(1,100);
-
-
-
-
-//     return 0;
-
-
-//int main() {
-//    string trainListFilePath = "C:/Users/user/Documents/GitHub/Face-Recognition/FaceRecognition/train_list.txt";
-//     vector<string> trainFacesPath;
-//     vector<string> trainFacesID;
-//     vector<string> loadedFacesID;
-//     //read training list and ID from txt file
-//     readList(trainListFilePath, trainFacesPath, trainFacesID);
-//     for(int i=0;i<trainFacesPath.size();i++){
-//         cout<<trainFacesPath[i]<<endl;;
-
-//     }
-     //read training data(faces, eigenvector, average face) from txt file
-//     Mat avgVec, eigenVec, facesInEigen;
-//     facesInEigen =  readFaces(int(trainFacesID.size()), loadedFacesID);
-//     avgVec = readMean();
-//     eigenVec = readEigen(int(trainFacesID.size()));
-//    return 0;
-
-
-
-
-
-//    QApplication a(argc, argv);
-//    MainWindow w;
-//    w.show();
-//    return a.exec();
-//}
