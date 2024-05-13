@@ -15,6 +15,15 @@
 using namespace std;
 using namespace cv;
 
+/*
+    @param listFilePath: the path to the file containing the list of faces
+    @param facesPath: the vector to store the paths of the faces
+    @param facesID: the vector to store the IDs of the faces
+    @return: void
+    @description: Reads the list of faces from the file
+
+*/
+
 void readList(string& listFilePath, vector<string>& facesPath, vector<string>& facesID)
 {
     ifstream file(listFilePath.c_str(), ifstream::in);
@@ -38,6 +47,13 @@ void readList(string& listFilePath, vector<string>& facesPath, vector<string>& f
         facesID.push_back(id);
     }
 }
+
+/*
+    @param noOfFaces: the number of faces to read
+    @param loadedFaceID: the vector to store the IDs of the faces
+    @return: the matrix containing the faces
+    @description: Reads the faces from the file
+*/
 
 //read faces in eigenspace that has been trained
 Mat readFaces(int noOfFaces, vector<string>& loadedFaceID)
@@ -69,6 +85,14 @@ Mat readFaces(int noOfFaces, vector<string>& loadedFaceID)
     return faces;
 }
 
+/*
+    @param noOfFaces: the number of faces to read
+    @param loadedWeights: the vector to store the IDs of the faces
+    @return: the matrix containing the weights
+    @description: Reads the weights from the file
+
+*/
+
 //read average face of all faces
 Mat readMean()
 {
@@ -95,6 +119,14 @@ Mat readMean()
     //cout << mean.col(0).at<float>(1) << endl;
     return mean;
 }
+
+/*
+    @param noOfFaces: the number of faces to read
+    @param loadedWeights: the vector to store the IDs of the faces
+    @return: the matrix containing the weights
+    @description: Reads the weights from the file
+
+*/
 
 //read eigenvector
 Mat readEigen(int noOfFaces)

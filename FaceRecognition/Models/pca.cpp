@@ -19,12 +19,25 @@ _PCA::_PCA(vector<Mat> faces){
     calcWeights();
 }
 
+/*
+    @param faces: the images to get the size of
+    @return: void
+    @description: Gets the size of the images
+
+*/
+
 void _PCA:: getImgSize(vector<Mat> faces)
 {
     //Dimession of Features
     imgSize = faces[0].rows * faces[0].cols;
     //cout << "Per Image Size is: " << size << endl;
 }
+
+/*
+    @param faces: the images to merge
+    @return: void
+    @description: Merges the images into a single matrix
+*/
 
 void _PCA::mergeMatrix(vector<Mat> faces)
 {
@@ -42,6 +55,12 @@ void _PCA::mergeMatrix(vector<Mat> faces)
     //cout << "Merged Matix(Width, Height): " << mergedMatrix.size() << endl;
 }
 
+
+/*
+    @return: void
+    @description: Gets the average face
+*/
+
 void _PCA::getAverageVector()
 {
     //To calculate average face, 1 means that the matrix is reduced to a single column.
@@ -50,6 +69,11 @@ void _PCA::getAverageVector()
     cv::reduce(allFacesMatrix, avgVector, 1, REDUCE_AVG);
 }
 
+/*
+    @return: void
+    @description: Subtracts the average face from all faces
+*/
+
 void _PCA::subtractMatrix()
 {
     allFacesMatrix.copyTo(subFacesMatrix);
@@ -57,6 +81,13 @@ void _PCA::subtractMatrix()
         subtract(subFacesMatrix.col(i), avgVector, subFacesMatrix.col(i));
     }
 }
+
+/*
+    @param _covarMatrix: the covariance matrix
+    @param threshold: the threshold to reduce the matrix
+    @return: void
+    @description: Gets the best eigen vectors
+*/
 
 void _PCA::getBestEigenVectors(Mat _covarMatrix,float threshold)
 {
@@ -89,25 +120,51 @@ void _PCA::getBestEigenVectors(Mat _covarMatrix,float threshold)
     }
 }
 
+/*
+    @return: Mat
+    @description: Returns the eigen faces
+*/
+
 Mat _PCA::getFacesMatrix()
 {
     return allFacesMatrix;
 }
+
+/*
+    @return: Mat
+    @description: Returns the average face
+*/
 
 Mat _PCA::getAverage()
 {
     return avgVector;
 }
 
+/*
+    @return: Mat
+    @description: Returns the eigen vectors
+*/
+
 Mat _PCA::getEigenvectors()
 {
     return eigenVector;
 }
 
+
+/*
+    @return: Mat
+    @description: Returns the weights
+*/
+
 Mat _PCA::getWeights()
 {
     return weights;
 }
+
+/*
+    @return: void
+    @description: Calculates the weights
+*/
 
 void _PCA::calcWeights()
 {

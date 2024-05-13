@@ -13,6 +13,12 @@ FaceDetection::FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <s
     this->loadedWeights = loadedWeights;
 }
 
+/*
+    @param frame: the frame to detect faces in
+    @return: void
+    @description: Detects faces in the frame and draws rectangles around them
+*/
+
 void FaceDetection::liveDetection(Mat &frame)
 {
     Mat grey;
@@ -60,6 +66,11 @@ void FaceDetection::liveDetection2(Mat &frame)
 
 
 
+/*
+    @param faceImage: the image to detect faces in
+    @return: void
+    @description: Detects faces in the image and returns the grey image
+*/
 
 void FaceDetection::detectFaces(Mat faceImage)
 {
@@ -79,6 +90,12 @@ void FaceDetection::detectFaces(Mat faceImage)
 
     // Return the grey image (original image) or you can return any other result as needed
 }
+
+/*
+    @param faceImage: the image to detect faces in
+    @return: void
+    @description: Detects faces in the image and returns the grey image
+*/
 
 
 void FaceDetection::recognize()
@@ -108,6 +125,12 @@ void FaceDetection::recognize()
     }
 }
 
+/*
+    @param testVec: the image to detect faces in
+    @return: void
+    @description: Detects faces in the image and returns the grey image
+*/
+
 void FaceDetection::projectFace(Mat testVec)
 {
     Mat tmpData;
@@ -121,6 +144,12 @@ void FaceDetection::projectFace(Mat testVec)
     projectedFace = eigenFaces * tmpData;
 }
 
+/*
+    @param faceROI: the image to detect faces in
+    @return: void
+    @description: Detects faces in the image and returns the grey image
+*/
+
 Mat FaceDetection::prepareFace(Mat faceROI)
 {
     Size newSize(64, 64);
@@ -129,6 +158,12 @@ Mat FaceDetection::prepareFace(Mat faceROI)
    faceROI.convertTo(faceROI,CV_32FC1);
    return faceROI;
 }
+
+/*
+    @param faceImage: the image to detect faces in
+    @return: void
+    @description: Detects faces in the image and returns the grey image
+*/
 
 string FaceDetection::getFaceId()
 {

@@ -4,6 +4,14 @@
 BasicHelpers::BasicHelpers() {}
 BasicHelpers::~BasicHelpers() {}
 
+
+/*
+    @param imageMat: the image to convert
+    @return: the converted image
+    @description: Converts the image from Mat to QPixmap
+
+*/
+
 QPixmap BasicHelpers::convertMatToPixmap(Mat imageMat){
 
     QPixmap outputPixmap;
@@ -52,11 +60,28 @@ QPixmap BasicHelpers::convertMatToPixmap(Mat imageMat){
     return outputPixmap;
 }
 
+
+/*
+    @param imageMat: the image to convert
+    @return: the converted image
+    @description: Converts the image from Mat to QImage
+
+*/
+
 QString BasicHelpers::openFile(){
     QString appDirPath = QCoreApplication::applicationDirPath();
     QString path = QFileDialog::getOpenFileName(nullptr, "Choose an Image", appDirPath);
     return path;
 }
+
+/*
+
+    @param imageMat: the image to convert
+    @return: the converted image
+    @description: Converts the image from Mat to QImage
+
+
+*/
 
 float BasicHelpers::convertQstringToFloat(const QString input){
     bool ok;
@@ -68,6 +93,13 @@ float BasicHelpers::convertQstringToFloat(const QString input){
     }
     return floatValue;
 }
+
+/*
+
+    @param imageMat: the image to convert
+    @return: the converted image
+    @description: Converts the image from Mat to QImage
+*/
 
 
 Mat BasicHelpers::vectorToMat(const vector<vector<float>>& input) {
