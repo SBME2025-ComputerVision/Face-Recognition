@@ -13,5 +13,6 @@ extern int labelsSize;
 
 extern _PCA pcaInstance;
 extern CascadeClassifier cascade;
+extern double mi;
 
 #endif // CONFIG_H

@@ -13,6 +13,7 @@ CONFIG += c++17
 SOURCES += \
     Controller/facepredictioncontroller.cpp \
     Controller/livecameracontroller.cpp \
+    Controller/modelpredictioncontroller.cpp \
     Helpers/fileshelper.cpp \
     Helpers/gui_helper.cpp \
     Models/facedetection.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
     Views/faceprediction.cpp \
     Views/livecamerawidget.cpp \
     Helpers/basichelpers.cpp \
+    Views/modelpredictionwidget.cpp \
     main.cpp \
     Views/mainwindow.cpp \
     config.cpp \
@@ -30,6 +32,7 @@ SOURCES += \
 HEADERS += \
     Controller/facepredictioncontroller.h \
     Controller/livecameracontroller.h \
+    Controller/modelpredictioncontroller.h \
     Helpers/fileshelper.h \
     Helpers/gui_helper.h \
     Models/facedetection.h \
@@ -41,20 +44,22 @@ HEADERS += \
     Views/livecamerawidget.h \
     Views/mainwindow.h \
     Helpers/basichelpers.h \
+    Views/modelpredictionwidget.h \
     config.h \
 
 FORMS += \
     Views/faceprediction.ui \
     Views/livecamerawidget.ui \
-    Views/mainwindow.ui
+    Views/mainwindow.ui \
+    Views/modelpredictionwidget.ui
 
 
 
 
 
- INCLUDEPATH += D:\tools\opencv\release\install\include
+ INCLUDEPATH += C:\tools\opencv\release\install\include
 
- LIBS += -LD:\tools\opencv\release\lib\
+ LIBS += -LC:\tools\opencv\release\lib\
      -lopencv_calib3d490                 \
      -lopencv_core490                    \
      -lopencv_features2d490              \
