@@ -3,8 +3,8 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
-CONFIG += link_pkgconfig
-PKGCONFIG += opencv4
+#CONFIG += link_pkgconfig
+#PKGCONFIG += opencv4
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -60,22 +60,22 @@ FORMS += \
 
 
 
- # INCLUDEPATH += D:\tools\opencv\release\install\include
+  INCLUDEPATH += D:\tools\opencv\release\install\include
 
- # LIBS += -LD:\tools\opencv\release\lib\
- #     -lopencv_calib3d490                 \
- #     -lopencv_core490                    \
- #     -lopencv_features2d490              \
- #     -lopencv_flann490                   \
- #     -lopencv_highgui490                 \
- #     -lopencv_imgproc490                 \
- #     -lopencv_imgcodecs490               \
- #     -lopencv_photo490                   \
- #     -lopencv_stitching490               \
- #     -lopencv_ts490                      \
- #     -lopencv_video490                   \
- #     -lopencv_videoio490                 \
- #     -lopencv_objdetect490               \
+  LIBS += -LD:\tools\opencv\release\lib\
+      -lopencv_calib3d490                 \
+      -lopencv_core490                    \
+      -lopencv_features2d490              \
+      -lopencv_flann490                   \
+      -lopencv_highgui490                 \
+      -lopencv_imgproc490                 \
+      -lopencv_imgcodecs490               \
+      -lopencv_photo490                   \
+      -lopencv_stitching490               \
+      -lopencv_ts490                      \
+      -lopencv_video490                   \
+      -lopencv_videoio490                 \
+      -lopencv_objdetect490               \
 
 
 # Default rules for deployment.

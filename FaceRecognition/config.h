@@ -8,11 +8,12 @@
 extern QString inactiveBtnStyle;
 extern QString activeBtnStyle;
 extern int labelsSize;
-
+extern int labelSize2;
 
 
 extern _PCA pcaInstance;
 extern CascadeClassifier cascade;
 extern double mi;
+extern _PCA pcaInstance2;
 
 #endif // CONFIG_H

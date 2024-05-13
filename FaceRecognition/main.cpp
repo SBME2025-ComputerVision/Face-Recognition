@@ -17,6 +17,7 @@ namespace fs = std::filesystem;
 map<string,int> idToPerson;
 int idx= 0 ;
 
+
 std::vector<Mat> getFaces(std::string path){
     std::vector<Mat> faces;
     Size targetSize = cv::Size(64,64);
@@ -78,7 +79,27 @@ int main(int argc, char *argv[])
          }
    }
    labelsSize = ids.size();
-   FilesHelper::writeWeights(ids,weight);
+   FilesHelper::writeWeights(ids,weight,0);
+//////////////
+
+     idx=0;
+     idToPerson.clear();
+   // Precompute PCA for all dataset
+    std::vector<Mat> faces2;
+    faces2 = getFaces("./datasetlive");
+    pcaInstance2= _PCA(faces2);
+    Mat weight2 = pcaInstance2.getWeights();
+    vector<string>ids2;
+    for(auto it = idToPerson.begin(); it != idToPerson.end(); ++it){
+          for(int j=0;j<7;j++){
+              ids2.push_back(it->first);
+          }
+    }
+    labelSize2 = ids2.size();
+    FilesHelper::writeWeights(ids2,weight2,1);
+
+
+
      QApplication a(argc, argv);
       MainWindow w;
       w.show();

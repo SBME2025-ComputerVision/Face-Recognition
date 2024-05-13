@@ -17,8 +17,8 @@ public:
     void liveDetection(Mat& frame);
     void liveDetection2(Mat& frame);
 
-    void detectFaces(Mat faceImage);
-    void recognize();
+    void detectFaces(Mat faceImage,bool isLive);
+    void recognize(bool isLive);
     void projectFace(Mat testVec);
     std::vector <pair<std::string,double>> detectTestData(vector <Mat> testFaces);
     Mat prepareFace(Mat _testImg);

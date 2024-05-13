@@ -142,9 +142,11 @@ Mat FilesHelper::readMeanFromFile(const string &filename)
 */
 
 
-void FilesHelper::writeWeights(vector<string>& _trainFacesID,Mat weights)
+void FilesHelper::writeWeights(vector<string>& _trainFacesID,Mat weights,bool isLive)
 {
-    string facesDataPath = "./dataset4files/weights.txt";
+    string facesDataPath;
+    if(isLive) facesDataPath = "./dataset4files/weights.txt";
+    else facesDataPath = "./dataset4files/weights2.txt";
     ofstream writeFaceFile(facesDataPath.c_str(), ofstream::out | ofstream::trunc);
     if (!writeFaceFile) {
         cout << "Fail to open file: " << facesDataPath << endl;
@@ -173,10 +175,12 @@ void FilesHelper::writeWeights(vector<string>& _trainFacesID,Mat weights)
 */
 
 
-Mat FilesHelper::readWeights(int noOfFaces,vector<string>& loadedFaceID)
+Mat FilesHelper::readWeights(int noOfFaces,vector<string>& loadedFaceID,bool isLive)
 {
     Mat faces = Mat::zeros(noOfFaces, noOfFaces, CV_32FC1);
-    string facesDataPath = "./dataset4files/weights.txt";
+    string facesDataPath;
+    if(isLive)facesDataPath = "./dataset4files/weights.txt";
+    else facesDataPath = "./dataset4files/weights2.txt";
     ifstream readFaces(facesDataPath.c_str(), ifstream::in);
 
     if (!readFaces) {

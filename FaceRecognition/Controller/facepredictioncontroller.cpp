@@ -26,11 +26,11 @@ string FacePredictionController::predictPerson()
          Mat eigens= pcaInstance.getEigenvectors();
          Mat meanRead= pcaInstance.getAverage();
          vector<string>loadedWeights;
-         Mat _= FilesHelper::readWeights(labelsSize,loadedWeights);
+         Mat _= FilesHelper::readWeights(labelsSize,loadedWeights,0);
          Mat w = pcaInstance.getWeights();
          Mat image = img->getOriginalImg();
          FaceDetection hello(w,eigens,meanRead,loadedWeights);
-         hello.detectFaces(image);
+         hello.detectFaces(image,0);
          return hello.getFaceId();
 }
 
