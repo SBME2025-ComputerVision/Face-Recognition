@@ -32,29 +32,35 @@ void FaceDetection::liveDetection(Mat &frame)
     }
 }
 
-//Mat FaceDetection::detectFaces(Mat frame, std::string classifier , CascadeClassifier cascade)
-//{
+void FaceDetection::liveDetection2(Mat &frame)
+{
+    Mat grey;
+    cvtColor(frame,grey,COLOR_BGR2GRAY);
 
-//    if(!cascade.load(classifier)){
-//        qDebug()<< "Error";
-//        return Mat::zeros(frame.size(),frame.type());
-//    }
+    /*
+    * Detect faces with the classifier
+   */
+    std::vector<Rect> faces;
+    cascade.detectMultiScale(grey,faces);
+    // Draw rectangles around the faces
+    for (int i = 0; i < faces.size(); ++i) {
 
-//    qDebug()<< "Classifier loaded";
+          Mat faceROI = grey(faces[i]);
+//          std::string faceName = "./Gallery/face" + std::to_string(i) + ".jpg";
+//          imwrite(faceName,faceROI);
+
+
+          double cX,cY;
+          cX = (faces[i].x + faces[i].width)/2;
+          cY = (faces[i].y + faces[i].height)/2;
+          Point center(cX,cY);
+          rectangle(frame,faces[i],Scalar(255,0,0),2);
+      }
+}
 
 
 
-//    for (int i = 0; i < faces.size(); ++i) {
-//          Mat faceROI = grey(faces[i]);
-//          imwrite("yah"+to_string(i)+".png",faceROI);
-//          faceROI = prepareFace(faceROI);
-//          projectFace(faceROI);
-//          recognize();
-//    }
 
-// return grey;
-
-//}
 void FaceDetection::detectFaces(Mat faceImage)
 {
     Mat grey;
@@ -85,16 +91,21 @@ void FaceDetection::recognize()
         Mat src2 = projectedFace;
 
         double dist = norm(src1, src2, NORM_L2);
-        cout << dist << endl ;
+    //    cout << dist << endl ;
         if (dist < minDist) {
             minDist = dist;
             min_index = i;
         }
     }
+
     this->closetFaceDist = minDist;
     mi = minDist;
+    if(minDist>=3500){
+    this->closetFaceID = "Unknown";
+    }
+    else{
     this->closetFaceID = loadedWeights[min_index];
-//    cout<<loadedWeights[min_index]<<endl;
+    }
 }
 
 void FaceDetection::projectFace(Mat testVec)

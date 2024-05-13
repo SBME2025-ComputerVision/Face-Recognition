@@ -33,3 +33,8 @@ string FacePredictionController::predictPerson()
          hello.detectFaces(image);
          return hello.getFaceId();
 }
+
+Mat FacePredictionController::detectFace()
+{
+
+}

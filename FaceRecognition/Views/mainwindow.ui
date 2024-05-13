@@ -129,7 +129,7 @@ QFrame{
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="faceDetectionBtn">
          <property name="text">
           <string>Face Detection</string>
          </property>

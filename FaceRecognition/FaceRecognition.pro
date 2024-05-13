@@ -21,6 +21,7 @@ SOURCES += \
     Models/image.cpp \
     Models/pca.cpp \
     Models/readfile.cpp \
+    Views/facedetection2.cpp \
     Views/faceprediction.cpp \
     Views/livecamerawidget.cpp \
     Helpers/basichelpers.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     Models/image.h \
     Models/pca.h \
     Models/readfile.h \
+    Views/facedetection2.h \
     Views/faceprediction.h \
     Views/livecamerawidget.h \
     Views/mainwindow.h \
@@ -48,6 +50,7 @@ HEADERS += \
     config.h \
 
 FORMS += \
+    Views/facedetection2.ui \
     Views/faceprediction.ui \
     Views/livecamerawidget.ui \
     Views/mainwindow.ui \
