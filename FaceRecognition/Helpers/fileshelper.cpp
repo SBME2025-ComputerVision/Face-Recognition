@@ -5,24 +5,17 @@ FilesHelper::FilesHelper()
 {
 
 }
-//void FilesHelper:: writeToFile(const Mat& inputMat, const std::string& filename) {
-//    std::ofstream outputFile(filename);
-//    if (!outputFile.is_open()) {
-//        std::cerr << "Failed to open output file!" << std::endl;
-//        return;
-//    }
 
-//    // Write eigenVector matrix to file
-//    for (int i = 0; i < inputMat.rows; ++i) {
-//        for (int j = 0; j < inputMat.cols; ++j) {
-//            outputFile << inputMat.at<double>(i, j) << " ";
-//        }
-//        outputFile << std::endl;
-//    }
 
-//    outputFile.close();
-//    std::cout << "EigenVector matrix written to " << filename << std::endl;
-//}
+/*
+    @param listFilePath: the path to the file containing the list of faces
+    @param facesPath: the vector to store the paths of the faces
+    @param facesID: the vector to store the IDs of the faces
+    @return: void
+    @description: Reads the list of faces from the file
+
+
+*/
 
 
 void FilesHelper::writeToFile(Mat eigen,const std::string& filename)
@@ -44,6 +37,14 @@ void FilesHelper::writeToFile(Mat eigen,const std::string& filename)
     writeEigenFile.close();
 }
 
+/*
+    @param listFilePath: the path to the file containing the list of faces
+    @param facesPath: the vector to store the paths of the faces
+    @param facesID: the vector to store the IDs of the faces
+    @return: void
+    @description: Reads the list of faces from the file
+*/
+
 void FilesHelper::writeMeanToFile(Mat Mean, const string &filename)
 {
     ofstream writeMeanFile(filename.c_str(), ofstream::out | ofstream::trunc);
@@ -58,6 +59,16 @@ void FilesHelper::writeMeanToFile(Mat Mean, const string &filename)
 
     writeMeanFile.close();
 }
+
+
+/*
+    @param listFilePath: the path to the file containing the list of faces
+    @param facesPath: the vector to store the paths of the faces
+    @param facesID: the vector to store the IDs of the faces
+    @return: void
+    @description: Reads the list of faces from the file
+
+*/
 
 Mat FilesHelper:: readMatrixFromFile(const std::string& filename) {
     int num;
@@ -88,6 +99,16 @@ Mat FilesHelper:: readMatrixFromFile(const std::string& filename) {
 
 }
 
+/*
+    @param listFilePath: the path to the file containing the list of faces
+    @param facesPath: the vector to store the paths of the faces
+    @param facesID: the vector to store the IDs of the faces
+    @return: void
+    @description: Reads the list of faces from the file
+
+
+*/
+
 Mat FilesHelper::readMeanFromFile(const string &filename)
 {
     Mat mean = Mat::zeros(4096, 1, CV_32FC1);
@@ -112,6 +133,14 @@ Mat FilesHelper::readMeanFromFile(const string &filename)
        return mean;
 }
 
+/*
+    @param listFilePath: the path to the file containing the list of faces
+    @param facesPath: the vector to store the paths of the faces
+    @param facesID: the vector to store the IDs of the faces
+    @return: void
+    @description: Reads the list of faces from the file
+*/
+
 
 void FilesHelper::writeWeights(vector<string>& _trainFacesID,Mat weights)
 {
@@ -132,6 +161,16 @@ void FilesHelper::writeWeights(vector<string>& _trainFacesID,Mat weights)
 
     writeFaceFile.close();
 }
+
+
+/*
+    @param noOfFaces: the number of faces to read
+    @param loadedFaceID: the vector to store the IDs of the faces
+    @return: the matrix containing the weights
+    @description: Reads the weights from the file
+
+
+*/
 
 
 Mat FilesHelper::readWeights(int noOfFaces,vector<string>& loadedFaceID)
