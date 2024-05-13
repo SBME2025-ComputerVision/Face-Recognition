@@ -11,6 +11,7 @@ using namespace std;
 class FaceDetection
 {
 public:
+    FaceDetection();
     FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <std::string> loadedWeights);
 
     void liveDetection(Mat& frame);
@@ -19,6 +20,7 @@ public:
     void detectFaces(Mat faceImage);
     void recognize();
     void projectFace(Mat testVec);
+    std::vector <pair<std::string,double>> detectTestData(vector <Mat> testFaces);
     Mat prepareFace(Mat _testImg);
     string getFaceId();
     double getDistance();

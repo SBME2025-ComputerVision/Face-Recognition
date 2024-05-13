@@ -1,6 +1,11 @@
 #include "facedetection.h"
 #include "qdebug.h"
 
+FaceDetection::FaceDetection()
+{
+
+}
+
 FaceDetection::FaceDetection(Mat weights,Mat eigenFaces, Mat mean,std::vector <std::string> loadedWeights) {
     this->eigenFaces= eigenFaces;
     this->weights = weights;
@@ -92,6 +97,9 @@ void FaceDetection::recognize()
             min_index = i;
         }
     }
+
+    this->closetFaceDist = minDist;
+    mi = minDist;
     if(minDist>=3500){
     this->closetFaceID = "Unknown";
     }
@@ -127,3 +135,14 @@ string FaceDetection::getFaceId()
     return closetFaceID;
 }
 
+
+std::vector <pair<std::string,double>> FaceDetection::detectTestData(vector <Mat> testFaces){
+    std::vector <pair<std::string,double>> faceIds;
+    for (int i = 0; i < testFaces.size(); i++) {
+        Mat face = testFaces[i];
+        detectFaces(face);
+        faceIds.push_back({closetFaceID,mi});
+        cout<<closetFaceID<<" "<<mi<<endl;
+    }
+    return faceIds;
+}

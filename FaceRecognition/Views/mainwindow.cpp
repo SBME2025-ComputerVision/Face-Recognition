@@ -9,16 +9,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     liveCameraWidget = new LiveCameraWidget();
     facePredictionWidget = new FacePrediction();
+    modelPredictionWidget = new ModelPredictionWidget();
+
     faceDetectionWidget = new FaceDetection2();
 
     ui->stackedWidget->addWidget(facePredictionWidget);
     ui->stackedWidget->addWidget(liveCameraWidget);
     ui->stackedWidget->addWidget(faceDetectionWidget);
-
+    ui->stackedWidget->addWidget(modelPredictionWidget);
     menuBtns.append(ui->liveCameraBtn);
     menuBtns.append(ui->faceRecognitionBtn);
-    menuBtns.append(ui->dataAndModelBtn);
     menuBtns.append(ui->faceDetectionBtn);
+    menuBtns.append(ui->dataAndModelBtn);
     ui->stackedWidget->setCurrentWidget(liveCameraWidget);
     GUI_HELPER::changeBtnStyle(ui->liveCameraBtn,activeBtnStyle);
 }
@@ -45,7 +47,7 @@ void MainWindow::on_faceRecognitionBtn_clicked()
 
 
 void MainWindow::on_dataAndModelBtn_clicked()
-{
+{   ui->stackedWidget->setCurrentWidget(modelPredictionWidget);
     GUI_HELPER::changeBtnsStyle(menuBtns,inactiveBtnStyle);
     GUI_HELPER::changeBtnStyle(ui->dataAndModelBtn,activeBtnStyle);
 }
