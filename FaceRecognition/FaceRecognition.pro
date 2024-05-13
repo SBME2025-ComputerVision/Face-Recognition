@@ -60,9 +60,9 @@ FORMS += \
 
 
 
- INCLUDEPATH += C:\tools\opencv\release\install\include
+ INCLUDEPATH += D:\tools\opencv\release\install\include
 
- LIBS += -LC:\tools\opencv\release\lib\
+ LIBS += -LD:\tools\opencv\release\lib\
      -lopencv_calib3d490                 \
      -lopencv_core490                    \
      -lopencv_features2d490              \
