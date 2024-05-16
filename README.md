@@ -24,7 +24,7 @@ Our application, built with C++, specializes in face detection and recognition u
 In this project:
 
 - [x] Live Face Detection:
-  - Our application is equipped with real-time face detection functionality. It can instantly detect faces as they appear in camera feeds, providing instantaneous results for dynamic environments.
+  - Our application is equipped with real-time face-detection functionality. It can instantly detect faces as they appear in camera feeds, providing instantaneous results for dynamic environments.
 - [x] Face Detection:
   - Our application employs advanced techniques to detect faces in images. It can analyze both color and grayscale images, making it versatile
     and adaptable to various scenarios. The face detection algorithm efficiently identifies facial features, enabling accurate localization of
@@ -54,13 +54,13 @@ The Application is built using:
 main
 ├─ FaceRecognition
 │  ├─ FaceRecognition/Models:
-│  ├─ FaceRecognition/Views: include ui/header / resource file related to pages design.
+│  ├─ FaceRecognition/Views: include UI/header/resource file related to page design.
 │  ├─ FaceRecognition/Controllers: Contains the controllers responsible for handling communication between models and views.
-│  ├─ FaceRecognition/Helpers: used for common app logic and different ui functionality.
-│  ├─ FaceRecognition/Assets:  Models used in facedetection
+│  ├─ FaceRecognition/Helpers: used for common app logic and different UI functionality.
+│  ├─ FaceRecognition/Assets:  Models used in face detection
 │  ├─ FaceRecognition/data: generated .txt files saving the trained PCA
 │  ├─ FaceRecognition/dataset: dataset used in training/testing
-└─ Gallery/test/unknowns : images used for testing.
+└─ Gallery/test/unknowns: images used for testing.
 
 ```
 
@@ -69,8 +69,9 @@ main
 ### Quick Preview
 
 #### Face Detection
-
-![](Demo/face-detection.png)
+| Face Recognition 4 |
+| :----------------: |
+|  ![](Demo/face-detection.png)|
 
 #### Offline Face Recognition
 
@@ -140,7 +141,7 @@ LIBS += -L<yourCV build folder path>\release\lib \
 
 Linux
 
-```pretrained
+```
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv4
 ```
