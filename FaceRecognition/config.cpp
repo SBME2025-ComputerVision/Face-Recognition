@@ -26,6 +26,8 @@ QString inactiveBtnStyle ="\
 
 QString activeBtnStyle = "background-color: #76ABAE;";
 int labelsSize;
+int labelSize2;
 _PCA pcaInstance = _PCA();
 CascadeClassifier cascade;
 double mi;
+_PCA pcaInstance2 = _PCA();

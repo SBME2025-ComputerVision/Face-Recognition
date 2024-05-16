@@ -27,7 +27,7 @@ void FaceDetection::liveDetection(Mat &frame)
     /*
     * Detect faces with the classifier
    */
-    detectFaces(frame);
+    detectFaces(frame,1);
     string face = closetFaceID;
     std::vector<Rect> faces;
     cascade.detectMultiScale(grey,faces);
@@ -72,7 +72,7 @@ void FaceDetection::liveDetection2(Mat &frame)
     @description: Detects faces in the image and returns the grey image
 */
 
-void FaceDetection::detectFaces(Mat faceImage)
+void FaceDetection::detectFaces(Mat faceImage,bool isLive)
 {
     Mat grey;
     cvtColor(faceImage, grey, COLOR_BGR2GRAY);
@@ -86,7 +86,7 @@ void FaceDetection::detectFaces(Mat faceImage)
     projectFace(processedFace);
 
     // Recognize the face
-    recognize();
+    recognize(isLive);
 
     // Return the grey image (original image) or you can return any other result as needed
 }
@@ -98,7 +98,7 @@ void FaceDetection::detectFaces(Mat faceImage)
 */
 
 
-void FaceDetection::recognize()
+void FaceDetection::recognize(bool isLive)
 {
 
     int minDist = INT_MAX;
@@ -117,7 +117,10 @@ void FaceDetection::recognize()
 
     this->closetFaceDist = minDist;
     mi = minDist;
-    if(minDist>=3500){
+    int threshold;
+    if(isLive) threshold=2000;
+    else threshold = 3500;
+    if(minDist>=threshold){
     this->closetFaceID = "Unknown";
     }
     else{
@@ -175,7 +178,7 @@ std::vector <pair<std::string,double>> FaceDetection::detectTestData(vector <Mat
     std::vector <pair<std::string,double>> faceIds;
     for (int i = 0; i < testFaces.size(); i++) {
         Mat face = testFaces[i];
-        detectFaces(face);
+        detectFaces(face,0);
         faceIds.push_back({closetFaceID,mi});
         cout<<closetFaceID<<" "<<mi<<endl;
     }

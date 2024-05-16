@@ -37,7 +37,7 @@ std::vector <pair<std::string,double>> ModelPredictionController::predictPersons
     Mat eigens= pcaInstance.getEigenvectors();
     Mat meanRead= pcaInstance.getAverage();
     vector<string>loadedWeights;
-    Mat _= FilesHelper::readWeights(labelsSize,loadedWeights);
+    Mat _= FilesHelper::readWeights(labelsSize,loadedWeights,0);
     Mat w = pcaInstance.getWeights();
     FaceDetection hello(w,eigens,meanRead,loadedWeights);
     faceIds = hello.detectTestData(this->allFaces);
