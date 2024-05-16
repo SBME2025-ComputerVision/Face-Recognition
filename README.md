@@ -1,4 +1,4 @@
-# Recognize faces Application
+# Live Face Detection & Recognition
 
 ## Table of contents:
 
